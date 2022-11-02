@@ -1,0 +1,200 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Notation used through this book - A Guide to Porting C/C++ to Rust</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="A book that explains how to port code from C++ to Rust.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="licence.html"><strong aria-hidden="true">2.</strong> Licence</a></li><li class="chapter-item expanded "><a href="foreword.html"><strong aria-hidden="true">3.</strong> Foreword</a></li><li class="chapter-item expanded "><a href="credits.html"><strong aria-hidden="true">4.</strong> Credits</a></li><li class="chapter-item expanded "><a href="notation.html" class="active"><strong aria-hidden="true">5.</strong> Notation used through this book</a></li><li class="chapter-item expanded "><a href="01_setting_up_rust/index.html"><strong aria-hidden="true">6.</strong> Setting Up Rust</a></li><li class="chapter-item expanded "><a href="02_c_and_cpp_background/index.html"><strong aria-hidden="true">7.</strong> C and C++ Background</a></li><li class="chapter-item expanded "><a href="03_rust_background/index.html"><strong aria-hidden="true">8.</strong> Rust Background</a></li><li class="chapter-item expanded "><a href="04_start_simple/index.html"><strong aria-hidden="true">9.</strong> Let's Start Simple</a></li><li class="chapter-item expanded "><a href="05_compiling_and_linking/index.html"><strong aria-hidden="true">10.</strong> Compiling and Linking in More Detail</a></li><li class="chapter-item expanded "><a href="06_source_layout/index.html"><strong aria-hidden="true">11.</strong> Source Layout and Other General Points</a></li><li class="chapter-item expanded "><a href="07_namespacing_with_modules/index.html"><strong aria-hidden="true">12.</strong> Namespacing With Modules</a></li><li class="chapter-item expanded "><a href="08_porting_code/index.html"><strong aria-hidden="true">13.</strong> Porting Code</a></li><li class="chapter-item expanded "><a href="09_features_compared/index.html"><strong aria-hidden="true">14.</strong> Features of Rust compared with C++</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="09_features_compared/types.html"><strong aria-hidden="true">14.1.</strong> Types</a></li><li class="chapter-item expanded "><a href="09_features_compared/strings.html"><strong aria-hidden="true">14.2.</strong> Strings</a></li><li class="chapter-item expanded "><a href="09_features_compared/variables.html"><strong aria-hidden="true">14.3.</strong> Variables</a></li><li class="chapter-item expanded "><a href="09_features_compared/literals.html"><strong aria-hidden="true">14.4.</strong> Literals</a></li><li class="chapter-item expanded "><a href="09_features_compared/collections.html"><strong aria-hidden="true">14.5.</strong> Collections</a></li><li class="chapter-item expanded "><a href="09_features_compared/structs.html"><strong aria-hidden="true">14.6.</strong> Structs</a></li><li class="chapter-item expanded "><a href="09_features_compared/comments.html"><strong aria-hidden="true">14.7.</strong> Comments</a></li><li class="chapter-item expanded "><a href="09_features_compared/references_and_borrowing.html"><strong aria-hidden="true">14.8.</strong> Lifetimes, References and Borrowing</a></li><li class="chapter-item expanded "><a href="09_features_compared/expressions.html"><strong aria-hidden="true">14.9.</strong> Expressions</a></li><li class="chapter-item expanded "><a href="09_features_compared/conditions.html"><strong aria-hidden="true">14.10.</strong> Conditions</a></li><li class="chapter-item expanded "><a href="09_features_compared/match.html"><strong aria-hidden="true">14.11.</strong> Switch / Match</a></li><li class="chapter-item expanded "><a href="09_features_compared/casting.html"><strong aria-hidden="true">14.12.</strong> Casting</a></li><li class="chapter-item expanded "><a href="09_features_compared/enums.html"><strong aria-hidden="true">14.13.</strong> Enumerations</a></li><li class="chapter-item expanded "><a href="09_features_compared/loops.html"><strong aria-hidden="true">14.14.</strong> Loops</a></li><li class="chapter-item expanded "><a href="09_features_compared/functions.html"><strong aria-hidden="true">14.15.</strong> Functions</a></li><li class="chapter-item expanded "><a href="09_features_compared/polymorphism.html"><strong aria-hidden="true">14.16.</strong> Polymorphism</a></li><li class="chapter-item expanded "><a href="09_features_compared/error_handling.html"><strong aria-hidden="true">14.17.</strong> Error Handling</a></li><li class="chapter-item expanded "><a href="09_features_compared/closures.html"><strong aria-hidden="true">14.18.</strong> Lambda Expressions / Closures</a></li><li class="chapter-item expanded "><a href="09_features_compared/generics.html"><strong aria-hidden="true">14.19.</strong> Templates / Generics</a></li><li class="chapter-item expanded "><a href="09_features_compared/attributes.html"><strong aria-hidden="true">14.20.</strong> Attributes</a></li><li class="chapter-item expanded "><a href="09_features_compared/multthreading.html"><strong aria-hidden="true">14.21.</strong> Multi-threading</a></li><li class="chapter-item expanded "><a href="09_features_compared/lint.html"><strong aria-hidden="true">14.22.</strong> Lint</a></li><li class="chapter-item expanded "><a href="09_features_compared/macros.html"><strong aria-hidden="true">14.23.</strong> Macros</a></li><li class="chapter-item expanded "><a href="09_features_compared/memory_allocation.html"><strong aria-hidden="true">14.24.</strong> Memory Allocation</a></li><li class="chapter-item expanded "><a href="09_features_compared/ffi.html"><strong aria-hidden="true">14.25.</strong> Foreign Function Interface</a></li></ol></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/index.html"><strong aria-hidden="true">15.</strong> Porting from C/C++ to Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="10_porting_from_cpp/copy_constructors.html"><strong aria-hidden="true">15.1.</strong> Copy Constructor / Assignment Operators</a></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/missing_braces.html"><strong aria-hidden="true">15.2.</strong> Missing Braces in Conditionals</a></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/assignments_in_conditionals.html"><strong aria-hidden="true">15.3.</strong> Assignment in Conditionals</a></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/class_member_initialisation.html"><strong aria-hidden="true">15.4.</strong> Class Member Initialisation</a></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/splitting_code_between_headers_and_sources.html"><strong aria-hidden="true">15.5.</strong> Headers and Sources</a></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/forward_declarations.html"><strong aria-hidden="true">15.6.</strong> Forward Declarations</a></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/namespace_collisions.html"><strong aria-hidden="true">15.7.</strong> Namespace Collisions</a></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/macros.html"><strong aria-hidden="true">15.8.</strong> Macros</a></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/type_mismatching.html"><strong aria-hidden="true">15.9.</strong> Type Mismatching</a></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/class_constructors.html"><strong aria-hidden="true">15.10.</strong> Explicit / Implicit Class Constructors</a></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/poor_lifetime_enforcement.html"><strong aria-hidden="true">15.11.</strong> Poor Lifetime Enforcement</a></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/memory_allocation.html"><strong aria-hidden="true">15.12.</strong> Memory Allocation</a></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/null_pointers.html"><strong aria-hidden="true">15.13.</strong> Null Pointers</a></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/virtual_destructors.html"><strong aria-hidden="true">15.14.</strong> Virtual Destructors</a></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/exceptions.html"><strong aria-hidden="true">15.15.</strong> Exception Handling / Safety</a></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/templates.html"><strong aria-hidden="true">15.16.</strong> Templates vs Generics</a></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/multiple_inheritance.html"><strong aria-hidden="true">15.17.</strong> Multiple Inheritance</a></li><li class="chapter-item expanded "><a href="10_porting_from_cpp/linker.html"><strong aria-hidden="true">15.18.</strong> Linker Errors</a></li></ol></li><li class="chapter-item expanded "><a href="11_debugging_rust/index.html"><strong aria-hidden="true">16.</strong> Debugging Rust</a></li><li class="chapter-item expanded "><a href="12_memory_management/index.html"><strong aria-hidden="true">17.</strong> Memory Management</a></li><li class="chapter-item expanded "><a href="13_std_library/index.html"><strong aria-hidden="true">18.</strong> Rust's std:: library</a></li><li class="chapter-item expanded "><a href="14_rust_cookbook/index.html"><strong aria-hidden="true">19.</strong> Rust Cookbook</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">A Guide to Porting C/C++ to Rust</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="notation-used-through-this-book"><a class="header" href="#notation-used-through-this-book">Notation used through this book</a></h1>
+<p>Code samples are given throughout this book are for C, C++, Rust and general configuration / console output.<br />
+In order to distinguish each kind they are styled as follows:</p>
+<p>C / C++ samples are given in this style:</p>
+<pre><code class="language-c++">// C/C++
+while (x &lt; y) {
+  cout &lt;&lt; &quot;x is less than y&quot; &lt;&lt; endl;
+  ++x;
+}
+</code></pre>
+<p>Rust samples are given in this style:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Rust
+if x == 20 {
+  println!(&quot;Warning!&quot;);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Standard console output or script is given this style:</p>
+<pre><code>cd myproject/
+cargo build
+</code></pre>
+<p>Most of the code samples are abbreviated in some fashion. e.g. they assume the code is running from within a main() function or they omit noise such as #includes, namespace definitions and so forth.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="credits.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="01_setting_up_rust/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="credits.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="01_setting_up_rust/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

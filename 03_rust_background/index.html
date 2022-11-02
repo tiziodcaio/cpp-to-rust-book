@@ -1,0 +1,259 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Rust Background - A Guide to Porting C/C++ to Rust</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="A book that explains how to port code from C++ to Rust.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../licence.html"><strong aria-hidden="true">2.</strong> Licence</a></li><li class="chapter-item expanded "><a href="../foreword.html"><strong aria-hidden="true">3.</strong> Foreword</a></li><li class="chapter-item expanded "><a href="../credits.html"><strong aria-hidden="true">4.</strong> Credits</a></li><li class="chapter-item expanded "><a href="../notation.html"><strong aria-hidden="true">5.</strong> Notation used through this book</a></li><li class="chapter-item expanded "><a href="../01_setting_up_rust/index.html"><strong aria-hidden="true">6.</strong> Setting Up Rust</a></li><li class="chapter-item expanded "><a href="../02_c_and_cpp_background/index.html"><strong aria-hidden="true">7.</strong> C and C++ Background</a></li><li class="chapter-item expanded "><a href="../03_rust_background/index.html" class="active"><strong aria-hidden="true">8.</strong> Rust Background</a></li><li class="chapter-item expanded "><a href="../04_start_simple/index.html"><strong aria-hidden="true">9.</strong> Let's Start Simple</a></li><li class="chapter-item expanded "><a href="../05_compiling_and_linking/index.html"><strong aria-hidden="true">10.</strong> Compiling and Linking in More Detail</a></li><li class="chapter-item expanded "><a href="../06_source_layout/index.html"><strong aria-hidden="true">11.</strong> Source Layout and Other General Points</a></li><li class="chapter-item expanded "><a href="../07_namespacing_with_modules/index.html"><strong aria-hidden="true">12.</strong> Namespacing With Modules</a></li><li class="chapter-item expanded "><a href="../08_porting_code/index.html"><strong aria-hidden="true">13.</strong> Porting Code</a></li><li class="chapter-item expanded "><a href="../09_features_compared/index.html"><strong aria-hidden="true">14.</strong> Features of Rust compared with C++</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../09_features_compared/types.html"><strong aria-hidden="true">14.1.</strong> Types</a></li><li class="chapter-item expanded "><a href="../09_features_compared/strings.html"><strong aria-hidden="true">14.2.</strong> Strings</a></li><li class="chapter-item expanded "><a href="../09_features_compared/variables.html"><strong aria-hidden="true">14.3.</strong> Variables</a></li><li class="chapter-item expanded "><a href="../09_features_compared/literals.html"><strong aria-hidden="true">14.4.</strong> Literals</a></li><li class="chapter-item expanded "><a href="../09_features_compared/collections.html"><strong aria-hidden="true">14.5.</strong> Collections</a></li><li class="chapter-item expanded "><a href="../09_features_compared/structs.html"><strong aria-hidden="true">14.6.</strong> Structs</a></li><li class="chapter-item expanded "><a href="../09_features_compared/comments.html"><strong aria-hidden="true">14.7.</strong> Comments</a></li><li class="chapter-item expanded "><a href="../09_features_compared/references_and_borrowing.html"><strong aria-hidden="true">14.8.</strong> Lifetimes, References and Borrowing</a></li><li class="chapter-item expanded "><a href="../09_features_compared/expressions.html"><strong aria-hidden="true">14.9.</strong> Expressions</a></li><li class="chapter-item expanded "><a href="../09_features_compared/conditions.html"><strong aria-hidden="true">14.10.</strong> Conditions</a></li><li class="chapter-item expanded "><a href="../09_features_compared/match.html"><strong aria-hidden="true">14.11.</strong> Switch / Match</a></li><li class="chapter-item expanded "><a href="../09_features_compared/casting.html"><strong aria-hidden="true">14.12.</strong> Casting</a></li><li class="chapter-item expanded "><a href="../09_features_compared/enums.html"><strong aria-hidden="true">14.13.</strong> Enumerations</a></li><li class="chapter-item expanded "><a href="../09_features_compared/loops.html"><strong aria-hidden="true">14.14.</strong> Loops</a></li><li class="chapter-item expanded "><a href="../09_features_compared/functions.html"><strong aria-hidden="true">14.15.</strong> Functions</a></li><li class="chapter-item expanded "><a href="../09_features_compared/polymorphism.html"><strong aria-hidden="true">14.16.</strong> Polymorphism</a></li><li class="chapter-item expanded "><a href="../09_features_compared/error_handling.html"><strong aria-hidden="true">14.17.</strong> Error Handling</a></li><li class="chapter-item expanded "><a href="../09_features_compared/closures.html"><strong aria-hidden="true">14.18.</strong> Lambda Expressions / Closures</a></li><li class="chapter-item expanded "><a href="../09_features_compared/generics.html"><strong aria-hidden="true">14.19.</strong> Templates / Generics</a></li><li class="chapter-item expanded "><a href="../09_features_compared/attributes.html"><strong aria-hidden="true">14.20.</strong> Attributes</a></li><li class="chapter-item expanded "><a href="../09_features_compared/multthreading.html"><strong aria-hidden="true">14.21.</strong> Multi-threading</a></li><li class="chapter-item expanded "><a href="../09_features_compared/lint.html"><strong aria-hidden="true">14.22.</strong> Lint</a></li><li class="chapter-item expanded "><a href="../09_features_compared/macros.html"><strong aria-hidden="true">14.23.</strong> Macros</a></li><li class="chapter-item expanded "><a href="../09_features_compared/memory_allocation.html"><strong aria-hidden="true">14.24.</strong> Memory Allocation</a></li><li class="chapter-item expanded "><a href="../09_features_compared/ffi.html"><strong aria-hidden="true">14.25.</strong> Foreign Function Interface</a></li></ol></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/index.html"><strong aria-hidden="true">15.</strong> Porting from C/C++ to Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../10_porting_from_cpp/copy_constructors.html"><strong aria-hidden="true">15.1.</strong> Copy Constructor / Assignment Operators</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/missing_braces.html"><strong aria-hidden="true">15.2.</strong> Missing Braces in Conditionals</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/assignments_in_conditionals.html"><strong aria-hidden="true">15.3.</strong> Assignment in Conditionals</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/class_member_initialisation.html"><strong aria-hidden="true">15.4.</strong> Class Member Initialisation</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/splitting_code_between_headers_and_sources.html"><strong aria-hidden="true">15.5.</strong> Headers and Sources</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/forward_declarations.html"><strong aria-hidden="true">15.6.</strong> Forward Declarations</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/namespace_collisions.html"><strong aria-hidden="true">15.7.</strong> Namespace Collisions</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/macros.html"><strong aria-hidden="true">15.8.</strong> Macros</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/type_mismatching.html"><strong aria-hidden="true">15.9.</strong> Type Mismatching</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/class_constructors.html"><strong aria-hidden="true">15.10.</strong> Explicit / Implicit Class Constructors</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/poor_lifetime_enforcement.html"><strong aria-hidden="true">15.11.</strong> Poor Lifetime Enforcement</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/memory_allocation.html"><strong aria-hidden="true">15.12.</strong> Memory Allocation</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/null_pointers.html"><strong aria-hidden="true">15.13.</strong> Null Pointers</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/virtual_destructors.html"><strong aria-hidden="true">15.14.</strong> Virtual Destructors</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/exceptions.html"><strong aria-hidden="true">15.15.</strong> Exception Handling / Safety</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/templates.html"><strong aria-hidden="true">15.16.</strong> Templates vs Generics</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/multiple_inheritance.html"><strong aria-hidden="true">15.17.</strong> Multiple Inheritance</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/linker.html"><strong aria-hidden="true">15.18.</strong> Linker Errors</a></li></ol></li><li class="chapter-item expanded "><a href="../11_debugging_rust/index.html"><strong aria-hidden="true">16.</strong> Debugging Rust</a></li><li class="chapter-item expanded "><a href="../12_memory_management/index.html"><strong aria-hidden="true">17.</strong> Memory Management</a></li><li class="chapter-item expanded "><a href="../13_std_library/index.html"><strong aria-hidden="true">18.</strong> Rust's std:: library</a></li><li class="chapter-item expanded "><a href="../14_rust_cookbook/index.html"><strong aria-hidden="true">19.</strong> Rust Cookbook</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">A Guide to Porting C/C++ to Rust</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="rust-background"><a class="header" href="#rust-background">Rust Background</a></h1>
+<p>So Rust began life as a research project by Graydon Hoare in 2009 for the Mozilla foundation to solve issues related to developing in C++. It progressed until the release of version 1.0 in 2015 and has since iterated through releases every six weeks since.</p>
+<h2 id="motivation"><a class="header" href="#motivation">Motivation</a></h2>
+<p>The motivating force for a new language isn't hard to see if you consider the Mozilla Firefox web browser. Like most web browsers it is:</p>
+<ul>
+<li>Written in C++. <sup class="footnote-reference"><a href="#1">1</a></sup></li>
+<li>Has millions of lines of code.</li>
+<li>Complex</li>
+<li>Vulnerable to bugs, vulnerabilities and exploits, many of which are attributable to the language the software is written in.</li>
+<li>Subsystems are mostly single-threaded and therefore not well suited for many-core devices - PCs, phones, tablets etc. Implementing multi-threading to the existing engine would doubtless cause even more bugs and vulnerabilities than being single threaded.</li>
+</ul>
+<p>Rust was conceived as a way to obtain C or C++ levels of performance but also remove entire classes of software problem that destabilize software and could be exploited. Code that passes the compiler phase could be guaranteed to be memory safe and therefore could be written in a way to take advantage of concurrency. It has even been coined as <em>fearless concurrency</em> because it removes a lot of the uncertainty and doubt that comes from typical concurrent code - data race conditions and so on.</p>
+<p>The project is hosted on <a href="https://github.com/rust-lang/rust">GitHub</a>. The language has been <em>self-hosting</em> for quite some time - that is to say the Rust compiler is written in Rust, so compiling Rust happens from a compiler written in Rust. Get your head around that! But it's the same way that C and C++ compilers are these days too.</p>
+<p><sup class="footnote-reference"><a href="#1">1</a></sup> Read this <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XPCOM/Guide/Internal_strings">Mozilla internal string guide</a> to get a flavor of the sort of problems the browser had to overcome. A browser obviously uses a lot of temporary strings. STL strings were too inefficient / flakey from one compiler to the next and so the browser sprouted an entire tree of string related classes to solve this issue. Similar tales are told in Qt and other large libraries.</p>
+<h2 id="safe-by-design"><a class="header" href="#safe-by-design">Safe by design</a></h2>
+<p>Rust enforces a safe-by-design philosophy. Simply put, the language and the compiler try to stop errors from happening in the first place. </p>
+<p>For example the compiler rigorously enforces lifetime tracking on objects and generates errors on violations. That means you cannot hold a reference to an object which has been destroyed unlike in C++.</p>
+<p>Most of these checks and guards are done at compile time so there is a zero-cost at runtime.</p>
+<h2 id="timeline"><a class="header" href="#timeline">Timeline</a></h2>
+<p>Rust has evolved a number of features in a backwards compatible fashion</p>
+<ul>
+<li>2015 - Release 1.0 of Rust</li>
+<li>2015-18 - Refinements such as procedural macros, rustup, rls, C ABI libraries, global allocators</li>
+<li>2018 - Rust 2018 edition (1.30). The 2018 edition contains various syntactic improvements designed to remove nuisances in the language (e.g. <code>extern crate</code> declarations) and improve the borrow checker. The compiler is backwards compatible so 2015 syntax is still accepted.</li>
+<li>2019 - <code>async</code> / <code>await</code> keywords for handling futures.</li>
+</ul>
+<h2 id="active-development"><a class="header" href="#active-development">Active Development</a></h2>
+<p>The Rust team releases a new version of Rust approximately every 6 weeks. This means Rust receives code and speed improvements over time. </p>
+<p>Most releases focus on marking APIs as stable, improving code optimization and compile times.</p>
+<h2 id="open-source-and-free"><a class="header" href="#open-source-and-free">Open source and free</a></h2>
+<p>Rust is dual licensed under the Apache 2.0 and MIT open source licenses. The full copyright message is viewable <a href="https://github.com/rust-lang/rust/blob/master/COPYRIGHT">online</a>.</p>
+<p>Essentially the license covers your right to modify and distribute the Rust source code. Note that Rust generates code for LLVM so LLVM also has its own software license (TODO link).</p>
+<p>What you compile with Rust (or LLVM) is not affected by the open source license. So you may compile, execute and distribute proprietary code without obligation to these licenses.</p>
+<h2 id="is-rust-for-everybody"><a class="header" href="#is-rust-for-everybody">Is Rust for everybody?</a></h2>
+<p>No of course not. Performance and safety are only two things to consider when writing software.</p>
+<ul>
+<li>Sometimes it's okay for a program to crash every so often. That depends on what you are writing of course.</li>
+<li>If you have code that's written and works then why throw that away?</li>
+<li>Writing new code will always take effort and will still cause application level bugs of one sort or another.</li>
+<li>Performance may not be a big deal especially for network bound code and a higher level language such as Java, C#, or Go may be more suitable.</li>
+<li>Some people will find the learning curve extremely steep. </li>
+<li>Rust is still relatively immature as a language and still has some rough edges - compilation times, optimization, complex macros.</li>
+</ul>
+<p>But you may still find there is benefit to moving some of your code to Rust. For example, your C++ software might work great but it has to deal with a lot of user-generated data so perhaps you want to reimplement that code path in Rust for extra safety.</p>
+<h2 id="safe-by-design-1"><a class="header" href="#safe-by-design-1">Safe by design</a></h2>
+<p>Some examples of this safe-by-design philosophy:</p>
+<ul>
+<li>Variable (binding) is immutable by default. This is the opposite of C++ where mutable is the default and we must explicitly say const to make something immutable. Immutability extends to the &amp;self reference on struct functions.</li>
+<li>Lifetime tracking. The Rust compiler will track the lifetime of objects and can generate code to automatically drop them when they become unused. It will generate errors if lifetime rules are violated.</li>
+<li>Borrowing / Variable binding. Rust enforces which variable &quot;owns&quot; an object at any given time, and tracks values that are moved to other variables. It enforces rules about who may hold a mutable or immutable reference to it. It will generate errors if the code tries to use moved variables, or obtain multiple mutable references to it.</li>
+<li>There is no NULL pointer in safe code. All references and pointers are valid because their lifetimes and borrowing are tracked.</li>
+<li>Rust uses LLVM for the backend so it generates optimized machine code.</li>
+<li>Lint checking is builtin, e.g. style enforcement for naming conventions and code consistency.</li>
+<li>Unit tests can be integrated into the code and run automatically</li>
+<li>Modules (equivalent to namespaces C++) are automatic meaning we implicitly get them by virtue of our file structure.</li>
+</ul>
+<h2 id="dont-c11--c14--c17-get-us-this"><a class="header" href="#dont-c11--c14--c17-get-us-this">Don't C++11 / C++14 / C++17 get us this?</a></h2>
+<p>Yes and no. C++ is converging with Rust in some aspects, but it is still unsafe by default and that could never change without changing the language itself.</p>
+<p>But let's look at some of the fundamental differences between C++ and Rust</p>
+<h3 id="move-semantics"><a class="header" href="#move-semantics">Move semantics</a></h3>
+<p>Move semantics in C++ require you implement explicit move constructors on classes you wish to use with them. </p>
+<p>Any class that doesn't is using copy semantics. The compiler will not care either that you leave the old class instance in a valid state as a result of your implementation. The compiler will even let you call your old class instance despite having moved data to a new instance. Move errors can be handled at runtime with a sentinel state. Simply put, move in C++ is complex and blogs <a href="https://foonathan.net/blog/2017/09/14/destructive-move.html">like this</a> spend a long time explaining the gory details.</p>
+<p>Remember in Rust you just get them for free, and they are enforced by the compiler.</p>
+<h3 id="smart-pointers"><a class="header" href="#smart-pointers">Smart pointers</a></h3>
+<p>Smart pointers can still be null dereferenced. Null dereferencing is undefined behaviour and can crash or compromise your code. C++ strongly prefers that you use references to avoid null dereferencing, but it doesn't check the lifetimes of references so it is still not always possible. Certain data structures like trees and graphics virtually preclude using references.</p>
+<p>C++ introduces an <code>std::optional</code> type that attempts to fulfill the same purpose as <code>Option</code> in Rust. There is a <code>nullopt</code>, equivalent to <code>None</code>, and <code>std::optional&lt;T&gt;(value)</code> to hold a value. </p>
+<h3 id="concurrency"><a class="header" href="#concurrency">Concurrency</a></h3>
+<p>Concurrency requires correct programming habits - ensuring to avoid concurrency errors like data races by using guards. The compiler will not help if you do not write correct code.</p>
+<p>In C++ you might protect access to some shared data with a <code>std::mutex</code> or <code>std::recursive_mutex</code> and use a <code>std::lock_guard</code> to hold the mutex for the duration of the operation. But the compiler does not care if you do or not.</p>
+<h4 id="programming-safety"><a class="header" href="#programming-safety">Programming safety</a></h4>
+<p>Perhaps if you program the right subset of features and diligently work to avoid pitfalls of C++ in general then you are more likely to create safe code. If you search for &quot;C++ coding guidelines&quot; you will find no end of articles that try to minimize risky practice. </p>
+<p>But what is the <em>right</em> subset?</p>
+<ul>
+<li>If you use someone else's library - are they using the right subset?</li>
+<li>If one subset is right then why does C++ still contain all the stuff that is outside of that?</li>
+<li>Why are all the things which are patently unsafe / dangerous still allowed?</li>
+<li>Why are certain dangerous default behaviors such as default copy constructors not flipped to improve code safety?</li>
+</ul>
+<p>We could argue that C++ doesn't want to break existing code by introducing change that requires code to be modified. That's fair enough but the flip-side is that future code is almost certainly going to be broken by this decision. Perhaps it would be better to inflict a little pain for some long term gain.</p>
+<h2 id="unsafe-programming--c-interoperability"><a class="header" href="#unsafe-programming--c-interoperability">Unsafe programming / C interoperability</a></h2>
+<p>Rust recognizes you may need to call an external libraries, e.g. in a C library or a system API.</p>
+<p>Therefore it provides an <code>unsafe</code> keyword that throws some of the safety switches when it is necessary to talk to the outside world.</p>
+<p>This allows you consider the possibility of porting code partially to Rust while still allowing some of it to remain as C.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../02_c_and_cpp_background/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../04_start_simple/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../02_c_and_cpp_background/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../04_start_simple/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

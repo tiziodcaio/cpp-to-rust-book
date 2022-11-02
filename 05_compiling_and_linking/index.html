@@ -1,0 +1,344 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Compiling and Linking in More Detail - A Guide to Porting C/C++ to Rust</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="A book that explains how to port code from C++ to Rust.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../licence.html"><strong aria-hidden="true">2.</strong> Licence</a></li><li class="chapter-item expanded "><a href="../foreword.html"><strong aria-hidden="true">3.</strong> Foreword</a></li><li class="chapter-item expanded "><a href="../credits.html"><strong aria-hidden="true">4.</strong> Credits</a></li><li class="chapter-item expanded "><a href="../notation.html"><strong aria-hidden="true">5.</strong> Notation used through this book</a></li><li class="chapter-item expanded "><a href="../01_setting_up_rust/index.html"><strong aria-hidden="true">6.</strong> Setting Up Rust</a></li><li class="chapter-item expanded "><a href="../02_c_and_cpp_background/index.html"><strong aria-hidden="true">7.</strong> C and C++ Background</a></li><li class="chapter-item expanded "><a href="../03_rust_background/index.html"><strong aria-hidden="true">8.</strong> Rust Background</a></li><li class="chapter-item expanded "><a href="../04_start_simple/index.html"><strong aria-hidden="true">9.</strong> Let's Start Simple</a></li><li class="chapter-item expanded "><a href="../05_compiling_and_linking/index.html" class="active"><strong aria-hidden="true">10.</strong> Compiling and Linking in More Detail</a></li><li class="chapter-item expanded "><a href="../06_source_layout/index.html"><strong aria-hidden="true">11.</strong> Source Layout and Other General Points</a></li><li class="chapter-item expanded "><a href="../07_namespacing_with_modules/index.html"><strong aria-hidden="true">12.</strong> Namespacing With Modules</a></li><li class="chapter-item expanded "><a href="../08_porting_code/index.html"><strong aria-hidden="true">13.</strong> Porting Code</a></li><li class="chapter-item expanded "><a href="../09_features_compared/index.html"><strong aria-hidden="true">14.</strong> Features of Rust compared with C++</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../09_features_compared/types.html"><strong aria-hidden="true">14.1.</strong> Types</a></li><li class="chapter-item expanded "><a href="../09_features_compared/strings.html"><strong aria-hidden="true">14.2.</strong> Strings</a></li><li class="chapter-item expanded "><a href="../09_features_compared/variables.html"><strong aria-hidden="true">14.3.</strong> Variables</a></li><li class="chapter-item expanded "><a href="../09_features_compared/literals.html"><strong aria-hidden="true">14.4.</strong> Literals</a></li><li class="chapter-item expanded "><a href="../09_features_compared/collections.html"><strong aria-hidden="true">14.5.</strong> Collections</a></li><li class="chapter-item expanded "><a href="../09_features_compared/structs.html"><strong aria-hidden="true">14.6.</strong> Structs</a></li><li class="chapter-item expanded "><a href="../09_features_compared/comments.html"><strong aria-hidden="true">14.7.</strong> Comments</a></li><li class="chapter-item expanded "><a href="../09_features_compared/references_and_borrowing.html"><strong aria-hidden="true">14.8.</strong> Lifetimes, References and Borrowing</a></li><li class="chapter-item expanded "><a href="../09_features_compared/expressions.html"><strong aria-hidden="true">14.9.</strong> Expressions</a></li><li class="chapter-item expanded "><a href="../09_features_compared/conditions.html"><strong aria-hidden="true">14.10.</strong> Conditions</a></li><li class="chapter-item expanded "><a href="../09_features_compared/match.html"><strong aria-hidden="true">14.11.</strong> Switch / Match</a></li><li class="chapter-item expanded "><a href="../09_features_compared/casting.html"><strong aria-hidden="true">14.12.</strong> Casting</a></li><li class="chapter-item expanded "><a href="../09_features_compared/enums.html"><strong aria-hidden="true">14.13.</strong> Enumerations</a></li><li class="chapter-item expanded "><a href="../09_features_compared/loops.html"><strong aria-hidden="true">14.14.</strong> Loops</a></li><li class="chapter-item expanded "><a href="../09_features_compared/functions.html"><strong aria-hidden="true">14.15.</strong> Functions</a></li><li class="chapter-item expanded "><a href="../09_features_compared/polymorphism.html"><strong aria-hidden="true">14.16.</strong> Polymorphism</a></li><li class="chapter-item expanded "><a href="../09_features_compared/error_handling.html"><strong aria-hidden="true">14.17.</strong> Error Handling</a></li><li class="chapter-item expanded "><a href="../09_features_compared/closures.html"><strong aria-hidden="true">14.18.</strong> Lambda Expressions / Closures</a></li><li class="chapter-item expanded "><a href="../09_features_compared/generics.html"><strong aria-hidden="true">14.19.</strong> Templates / Generics</a></li><li class="chapter-item expanded "><a href="../09_features_compared/attributes.html"><strong aria-hidden="true">14.20.</strong> Attributes</a></li><li class="chapter-item expanded "><a href="../09_features_compared/multthreading.html"><strong aria-hidden="true">14.21.</strong> Multi-threading</a></li><li class="chapter-item expanded "><a href="../09_features_compared/lint.html"><strong aria-hidden="true">14.22.</strong> Lint</a></li><li class="chapter-item expanded "><a href="../09_features_compared/macros.html"><strong aria-hidden="true">14.23.</strong> Macros</a></li><li class="chapter-item expanded "><a href="../09_features_compared/memory_allocation.html"><strong aria-hidden="true">14.24.</strong> Memory Allocation</a></li><li class="chapter-item expanded "><a href="../09_features_compared/ffi.html"><strong aria-hidden="true">14.25.</strong> Foreign Function Interface</a></li></ol></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/index.html"><strong aria-hidden="true">15.</strong> Porting from C/C++ to Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../10_porting_from_cpp/copy_constructors.html"><strong aria-hidden="true">15.1.</strong> Copy Constructor / Assignment Operators</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/missing_braces.html"><strong aria-hidden="true">15.2.</strong> Missing Braces in Conditionals</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/assignments_in_conditionals.html"><strong aria-hidden="true">15.3.</strong> Assignment in Conditionals</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/class_member_initialisation.html"><strong aria-hidden="true">15.4.</strong> Class Member Initialisation</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/splitting_code_between_headers_and_sources.html"><strong aria-hidden="true">15.5.</strong> Headers and Sources</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/forward_declarations.html"><strong aria-hidden="true">15.6.</strong> Forward Declarations</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/namespace_collisions.html"><strong aria-hidden="true">15.7.</strong> Namespace Collisions</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/macros.html"><strong aria-hidden="true">15.8.</strong> Macros</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/type_mismatching.html"><strong aria-hidden="true">15.9.</strong> Type Mismatching</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/class_constructors.html"><strong aria-hidden="true">15.10.</strong> Explicit / Implicit Class Constructors</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/poor_lifetime_enforcement.html"><strong aria-hidden="true">15.11.</strong> Poor Lifetime Enforcement</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/memory_allocation.html"><strong aria-hidden="true">15.12.</strong> Memory Allocation</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/null_pointers.html"><strong aria-hidden="true">15.13.</strong> Null Pointers</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/virtual_destructors.html"><strong aria-hidden="true">15.14.</strong> Virtual Destructors</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/exceptions.html"><strong aria-hidden="true">15.15.</strong> Exception Handling / Safety</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/templates.html"><strong aria-hidden="true">15.16.</strong> Templates vs Generics</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/multiple_inheritance.html"><strong aria-hidden="true">15.17.</strong> Multiple Inheritance</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/linker.html"><strong aria-hidden="true">15.18.</strong> Linker Errors</a></li></ol></li><li class="chapter-item expanded "><a href="../11_debugging_rust/index.html"><strong aria-hidden="true">16.</strong> Debugging Rust</a></li><li class="chapter-item expanded "><a href="../12_memory_management/index.html"><strong aria-hidden="true">17.</strong> Memory Management</a></li><li class="chapter-item expanded "><a href="../13_std_library/index.html"><strong aria-hidden="true">18.</strong> Rust's std:: library</a></li><li class="chapter-item expanded "><a href="../14_rust_cookbook/index.html"><strong aria-hidden="true">19.</strong> Rust Cookbook</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">A Guide to Porting C/C++ to Rust</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="compiling-and-linking-in-more-detail"><a class="header" href="#compiling-and-linking-in-more-detail">Compiling and Linking in More Detail</a></h1>
+<h2 id="your-main-entry-point"><a class="header" href="#your-main-entry-point">Your main() entry point</a></h2>
+<p>Rust has a main function just like C/C++ which is usually called <code>main()</code>. <sup class="footnote-reference"><a href="#1">1</a></sup></p>
+<p>It doesn’t take any arguments and it doesn’t return anything unlike C/C++. Let's see how we might do those things.</p>
+<h3 id="processing-command-line-arguments"><a class="header" href="#processing-command-line-arguments">Processing command-line arguments</a></h3>
+<p>In C/C++, the entry point takes argc, and argv arguments. Argc is the number of arguments and argv is an array of char * pointers that specify those arguments.</p>
+<pre><code class="language-c++">int main(int arcg, char **argv) {
+  // our code
+}
+</code></pre>
+<p>Processing arguments can become inordinately complex (and buggy) so most software will use a function like <code>getopt()</code> or <code>getopt_long()</code> to simplify the process.</p>
+<p>Note that <code>getopt()</code> is not a standard C function and is not portable, e.g. to Windows. So immediately we see an example of problem that C/C++ forces us to solve.</p>
+<p>Rust doesn't process arguments this way. Instead you access the command-line parameters from <code>std::env::args()</code> from anywhere in the code. That is to say, there is a function called <code>args()</code> under the namespace <code>std::env</code> that returns the strings on the command-line.</p>
+<p>The function <code>args()</code> returns the parameters in a string array. As with C++, the first element of the array at index 0 is the command itself:</p>
+<pre><pre class="playground"><code class="language-rust">use std::env;
+fn main() {
+    for argument in env::args() {
+        println!(&quot;{}&quot;, argument);
+    }
+}
+</code></pre></pre>
+<p>Alternatively, since <code>args()</code> returns a type called <code>Args</code> that implements the <code>Iterator</code> trait  you can collect the arguments up into your own collection and process that:</p>
+<pre><pre class="playground"><code class="language-rust">use std::env;
+use std::collections::HashSet;
+fn main() {
+    let args: HashSet&lt;String&gt; = env::args().collect();
+    let verbose_flag = args.contains(&quot;--verbose&quot;);
+}
+</code></pre></pre>
+<p>We can see some clear advantages to how Rust supplies args:</p>
+<ul>
+<li>You don't need a separate argc, parameter. You have an array that defines its own length.</li>
+<li>You can access arguments from anywhere in your program, not just from the <code>main()</code>. In C++ you would have to pass your args around from one place to another. In Rust you can simply ask for them from anywhere.</li>
+</ul>
+<h4 id="use-a-crate---easy-command-line-processing"><a class="header" href="#use-a-crate---easy-command-line-processing">Use a crate - easy command-line processing</a></h4>
+<p>Rust has a number of crates for processing arguments. The most popular crate for processing arguments is <a href="https://crates.io/crates/clap">clap</a>.</p>
+<p>It provides a very descriptive, declarative way of adding rules for processing arguments into the code. It is especially useful if your program takes a lot of arguments, including parameters and validation rules.</p>
+<p>For example we add this to <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[dependencies]
+clap = &quot;2.27&quot;
+</code></pre>
+<p>And in our <code>main.rs</code>.</p>
+<pre><pre class="playground"><code class="language-rust">#[macro_use] extern crate clap;
+use clap::*;
+fn main() {
+  let matches = App::new(&quot;Sample App&quot;)
+    .author(&quot;My Name &lt;myname@foocorp.com&gt;&quot;)
+    .about(&quot;Sample application&quot;)
+    .arg(Arg::with_name(&quot;T&quot;)
+        .long(&quot;timetowait&quot;)
+        .help(&quot;Waits some period of time for something to happen&quot;)
+        .default_value(&quot;10&quot;)
+        .takes_value(true)
+        .possible_values(&amp;[&quot;10&quot;, &quot;20&quot;, &quot;30&quot;])
+        .required(false))
+    .get_matches();
+
+  let time_to_wait = value_t_or_exit!(matches, &quot;T&quot;, u32);
+  println!(&quot;Time to wait value is {}&quot;, time_to_wait);
+}
+</code></pre></pre>
+<p>This code will process arguments for <code>-T</code> or <code>--timetowait</code> and ensure the value is one of 3 accepted. And if the user doesn't supply a value, it defaults to <code>10</code>. And if the user doesn't supply a valid integer it will terminate the application with a useful error.</p>
+<p>The user can also provide <code>--help</code> as an argument and it will print out the usage.</p>
+<h3 id="exit-code"><a class="header" href="#exit-code">Exit code</a></h3>
+<p>If you want to exit with a code, you set it explicitly:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    //... my code
+    std::os::set_exit_status(1);
+}
+</code></pre></pre>
+<p>When <code>main()</code> drops out, the runtime cleans up and returns the code to the environment. Again there is no reason the status code has to be set in <code>main()</code>, you could set it somewhere else and <code>panic!()</code> to cause the application to exit.</p>
+<h2 id="optimized-compilation"><a class="header" href="#optimized-compilation">Optimized compilation</a></h2>
+<p>In a typical edit / compile / debug cycle there is no need to optimize code and so Rust doesn't optimize unless you ask it to.</p>
+<p>Optimization takes longer to happen and can reorder the code so that backtraces and debugging may not point at the proper lines of code in the source.</p>
+<p>If you want to optimize your code, add a -O argument to rustc:</p>
+<pre><code class="language-sh">rustc -O hw.rs
+</code></pre>
+<p>The act of optimization will cause Rust to invoke the LLVM optimizer prior to linking. This will produce faster executable code at the expense of compile time.</p>
+<h2 id="incremental-compilation"><a class="header" href="#incremental-compilation">Incremental compilation</a></h2>
+<p>Incremental compilation is also important for edit / compile / debug cycles. Incremental compilation only rebuilds those parts of the code which have changed through modification to minimize the amount of time it takes to rebuild the product.</p>
+<p>Rust has a different incremental compilation model to C++.</p>
+<ul>
+<li>C++ doesn't support incremental compilation per se. That function is left to the make / project / solution tool. Most builders will track a list of project files and which file depends on other files. So if file foo.h changes then the builder knows what other files depend on it and ensures they are rebuilt before relinking the target executable.</li>
+<li>In Rust incremental compilation is at the crate level - that if any file in a crate changes then the crate as a whole has to be rebuilt. Thus larger code bases tend to be split up into crates to reduce the incremental build time.</li>
+</ul>
+<p>There is a recognition in the Rust community that the crate-level model can suck for large crates so the Rust compiler is getting <a href="https://blog.rust-lang.org/2016/09/08/incremental.html">incremental per-file compilation support</a> in addition to per-crate.</p>
+<p>At the time of writing this support is experimental because it is tied to refactoring the compiler for other reasons to improve performance and optimization but will eventually be enabled and supported by rustc and cargo.</p>
+<h2 id="managing-a-project"><a class="header" href="#managing-a-project">Managing a project</a></h2>
+<p>In C++ we would use a <code>makefile</code> or a solution file of some kind to manage a real world project and build it.</p>
+<p>For small programs we might run a script or invoke a compiler directly but as our program grows and takes longer to build, we would have to use a <code>makefile</code> to maintain our sanity.</p>
+<p>A typical <code>makefile</code> has rules that say what files are our sources, how each source depends on other sources (like headers), what our final executable is and a bunch of other mess about compile and link flags that must be maintained.</p>
+<p>There are lots of different makefile solutions which have cropped up over the years but a simple gmake might look like one:</p>
+<pre><code>SRCS = main.o pacman.o sprites.o sfx.o
+OBJS = $(SRCS:.cpp=.o)
+EXE = pacman
+$(EXE): $(OBJS)
+    $(CC) $(CFLAGS) -o $(EXE) $(OBJS)
+.cpp.o:
+    $(CC) $(CFLAGS) -c $&lt; -o $@
+</code></pre>
+<p>When you invoke <code>make</code>, the software will check all the dependencies of your target, looking at their filestamps and determine which rules need to be invoked and which order to rebuild your code.</p>
+<p>Rust makes things a lot easier – there is no makefile! The source code is the makefile. Each file says what other files it uses via depencies on other crates, and on other modules.</p>
+<p>Consider this main.rs for a pacman game:</p>
+<pre><pre class="playground"><code class="language-rust">mod pacman;
+
+fn main() {
+  let mut game = pacman::Game::new();
+  game.start();
+}
+</code></pre></pre>
+<p>If we save this file and type <code>rustc main.rs</code> the compiler will notice the reference to <code>mod pacman</code> and will search for a <code>pacman.rs</code> (or <code>pacman/mod.rs</code>) and compile that too. It will continue doing this with any other modules referenced along the way.</p>
+<p>In other words you could have a project with 1000 files and compile it as simply as <code>rustc main.rs</code>. Anything referenced is automatically compiled and linked.</p>
+<p>Okay, so we can call <code>rustc</code>, but what happens if our code has dependencies on other projects. Or if our project is meant to be exported so other projects can use it?</p>
+<h3 id="cargo"><a class="header" href="#cargo">Cargo</a></h3>
+<p>Cargo is a package manager build tool rolled into one. Cargo can fetch dependencies, build them, build and link your code, run unit tests, install binaries, produce documentation and upload versions of your project to a repository.</p>
+<p>The easiest way to create a new project in Rust is to use the <code>cargo</code> command to do it</p>
+<pre><code>cargo new hello_world –bin
+</code></pre>
+<p>Creates this</p>
+<pre><code>hello_world/
+  .git/ (git repo)
+  .gitignore
+  Cargo.toml
+  src/
+    main.rs
+</code></pre>
+<p>Building the project is then simply a matter of this:</p>
+<pre><code>cargo build
+</code></pre>
+<p>If you want to build for release you add a --release argument. This will invokes the rust compiler with optimizations enabled:</p>
+<pre><code>cargo build --release
+</code></pre>
+<p>If we wanted to build and run unit tests in our code we could write</p>
+<pre><code>cargo test
+</code></pre>
+<h3 id="crates-and-external-dependencies"><a class="header" href="#crates-and-external-dependencies">Crates and external dependencies</a></h3>
+<p>Cargo doesn't just take care of building our code, it also ensures that anything our code depends on is also downloaded and built. These external dependencies are defined in a <code>Cargo.toml</code> in our project root.</p>
+<p>We can edit that file to say we have a dependency on an external &quot;crate&quot; such as the <code>time</code> crate:</p>
+<pre><code>[package]
+name = &quot;hello_world&quot;
+version = &quot;0.1.0&quot;
+authors = [&quot;Joe Blogs &lt;jbloggs@somewhere.com&gt;&quot;]
+
+[dependencies]
+time = &quot;0.1.35&quot;
+</code></pre>
+<p>Now when we run <code>cargo build</code>, it will fetch &quot;time&quot; from crates.io and also any dependencies that &quot;time&quot; has itself. Then it will build each crate in turn automatically. It does this efficiently so iterative builds do not incur a penalty. External crates are download and built in your .cargo home directory.</p>
+<p>To use our external crate we declare it in the main.rs of our code, e.g.</p>
+<pre><pre class="playground"><code class="language-rust">extern crate time;
+
+fn main() {
+  let now = time::PreciseTime::now();
+  println!(&quot;The time is {:?}&quot;, now);
+}
+</code></pre></pre>
+<p>So the change to the <code>Cargo.toml</code> and a reference in the source is sufficient to:</p>
+<ol>
+<li>Fetch the crate (and any dependencies)</li>
+<li>Build the crate (and any dependencies)</li>
+<li>Compile and link to the crate and dependencies</li>
+</ol>
+<p>All that happened with a line in <code>Cargo.toml</code> and a line in our code to reference the crate. We didn't have to mess around figuring how to build the other library, or maintain multiple makefiles, or getting our compiler / linker flags right. It just happened.</p>
+<h4 id="cargolock"><a class="header" href="#cargolock">Cargo.lock</a></h4>
+<p>Also note that once we build, cargo creates a <code>Cargo.lock</code> file in our root directory.</p>
+<p>This file is made so that if <code>cargo build</code> is invoked again it has an exact list of what packages need to be pulled and compiled. It stops situations where the code under our feet (so to speak) moves and suddenly our project no longer builds. So if the lock file exists, the same dependency configuration can be reproduced even from a clean. If you want to force the cargo to rebuild a new lock file, e.g. after changing <code>Cargo.toml</code>, you can type <code>cargo update</code>.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>You can change the main entry point using a special  <code>#[start]</code> directive if you want on another function but the default is main()</p>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../04_start_simple/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../06_source_layout/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../04_start_simple/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../06_source_layout/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

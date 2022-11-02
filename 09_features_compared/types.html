@@ -1,0 +1,536 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Types - A Guide to Porting C/C++ to Rust</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="A book that explains how to port code from C++ to Rust.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../licence.html"><strong aria-hidden="true">2.</strong> Licence</a></li><li class="chapter-item expanded "><a href="../foreword.html"><strong aria-hidden="true">3.</strong> Foreword</a></li><li class="chapter-item expanded "><a href="../credits.html"><strong aria-hidden="true">4.</strong> Credits</a></li><li class="chapter-item expanded "><a href="../notation.html"><strong aria-hidden="true">5.</strong> Notation used through this book</a></li><li class="chapter-item expanded "><a href="../01_setting_up_rust/index.html"><strong aria-hidden="true">6.</strong> Setting Up Rust</a></li><li class="chapter-item expanded "><a href="../02_c_and_cpp_background/index.html"><strong aria-hidden="true">7.</strong> C and C++ Background</a></li><li class="chapter-item expanded "><a href="../03_rust_background/index.html"><strong aria-hidden="true">8.</strong> Rust Background</a></li><li class="chapter-item expanded "><a href="../04_start_simple/index.html"><strong aria-hidden="true">9.</strong> Let's Start Simple</a></li><li class="chapter-item expanded "><a href="../05_compiling_and_linking/index.html"><strong aria-hidden="true">10.</strong> Compiling and Linking in More Detail</a></li><li class="chapter-item expanded "><a href="../06_source_layout/index.html"><strong aria-hidden="true">11.</strong> Source Layout and Other General Points</a></li><li class="chapter-item expanded "><a href="../07_namespacing_with_modules/index.html"><strong aria-hidden="true">12.</strong> Namespacing With Modules</a></li><li class="chapter-item expanded "><a href="../08_porting_code/index.html"><strong aria-hidden="true">13.</strong> Porting Code</a></li><li class="chapter-item expanded "><a href="../09_features_compared/index.html"><strong aria-hidden="true">14.</strong> Features of Rust compared with C++</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../09_features_compared/types.html" class="active"><strong aria-hidden="true">14.1.</strong> Types</a></li><li class="chapter-item expanded "><a href="../09_features_compared/strings.html"><strong aria-hidden="true">14.2.</strong> Strings</a></li><li class="chapter-item expanded "><a href="../09_features_compared/variables.html"><strong aria-hidden="true">14.3.</strong> Variables</a></li><li class="chapter-item expanded "><a href="../09_features_compared/literals.html"><strong aria-hidden="true">14.4.</strong> Literals</a></li><li class="chapter-item expanded "><a href="../09_features_compared/collections.html"><strong aria-hidden="true">14.5.</strong> Collections</a></li><li class="chapter-item expanded "><a href="../09_features_compared/structs.html"><strong aria-hidden="true">14.6.</strong> Structs</a></li><li class="chapter-item expanded "><a href="../09_features_compared/comments.html"><strong aria-hidden="true">14.7.</strong> Comments</a></li><li class="chapter-item expanded "><a href="../09_features_compared/references_and_borrowing.html"><strong aria-hidden="true">14.8.</strong> Lifetimes, References and Borrowing</a></li><li class="chapter-item expanded "><a href="../09_features_compared/expressions.html"><strong aria-hidden="true">14.9.</strong> Expressions</a></li><li class="chapter-item expanded "><a href="../09_features_compared/conditions.html"><strong aria-hidden="true">14.10.</strong> Conditions</a></li><li class="chapter-item expanded "><a href="../09_features_compared/match.html"><strong aria-hidden="true">14.11.</strong> Switch / Match</a></li><li class="chapter-item expanded "><a href="../09_features_compared/casting.html"><strong aria-hidden="true">14.12.</strong> Casting</a></li><li class="chapter-item expanded "><a href="../09_features_compared/enums.html"><strong aria-hidden="true">14.13.</strong> Enumerations</a></li><li class="chapter-item expanded "><a href="../09_features_compared/loops.html"><strong aria-hidden="true">14.14.</strong> Loops</a></li><li class="chapter-item expanded "><a href="../09_features_compared/functions.html"><strong aria-hidden="true">14.15.</strong> Functions</a></li><li class="chapter-item expanded "><a href="../09_features_compared/polymorphism.html"><strong aria-hidden="true">14.16.</strong> Polymorphism</a></li><li class="chapter-item expanded "><a href="../09_features_compared/error_handling.html"><strong aria-hidden="true">14.17.</strong> Error Handling</a></li><li class="chapter-item expanded "><a href="../09_features_compared/closures.html"><strong aria-hidden="true">14.18.</strong> Lambda Expressions / Closures</a></li><li class="chapter-item expanded "><a href="../09_features_compared/generics.html"><strong aria-hidden="true">14.19.</strong> Templates / Generics</a></li><li class="chapter-item expanded "><a href="../09_features_compared/attributes.html"><strong aria-hidden="true">14.20.</strong> Attributes</a></li><li class="chapter-item expanded "><a href="../09_features_compared/multthreading.html"><strong aria-hidden="true">14.21.</strong> Multi-threading</a></li><li class="chapter-item expanded "><a href="../09_features_compared/lint.html"><strong aria-hidden="true">14.22.</strong> Lint</a></li><li class="chapter-item expanded "><a href="../09_features_compared/macros.html"><strong aria-hidden="true">14.23.</strong> Macros</a></li><li class="chapter-item expanded "><a href="../09_features_compared/memory_allocation.html"><strong aria-hidden="true">14.24.</strong> Memory Allocation</a></li><li class="chapter-item expanded "><a href="../09_features_compared/ffi.html"><strong aria-hidden="true">14.25.</strong> Foreign Function Interface</a></li></ol></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/index.html"><strong aria-hidden="true">15.</strong> Porting from C/C++ to Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../10_porting_from_cpp/copy_constructors.html"><strong aria-hidden="true">15.1.</strong> Copy Constructor / Assignment Operators</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/missing_braces.html"><strong aria-hidden="true">15.2.</strong> Missing Braces in Conditionals</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/assignments_in_conditionals.html"><strong aria-hidden="true">15.3.</strong> Assignment in Conditionals</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/class_member_initialisation.html"><strong aria-hidden="true">15.4.</strong> Class Member Initialisation</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/splitting_code_between_headers_and_sources.html"><strong aria-hidden="true">15.5.</strong> Headers and Sources</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/forward_declarations.html"><strong aria-hidden="true">15.6.</strong> Forward Declarations</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/namespace_collisions.html"><strong aria-hidden="true">15.7.</strong> Namespace Collisions</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/macros.html"><strong aria-hidden="true">15.8.</strong> Macros</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/type_mismatching.html"><strong aria-hidden="true">15.9.</strong> Type Mismatching</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/class_constructors.html"><strong aria-hidden="true">15.10.</strong> Explicit / Implicit Class Constructors</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/poor_lifetime_enforcement.html"><strong aria-hidden="true">15.11.</strong> Poor Lifetime Enforcement</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/memory_allocation.html"><strong aria-hidden="true">15.12.</strong> Memory Allocation</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/null_pointers.html"><strong aria-hidden="true">15.13.</strong> Null Pointers</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/virtual_destructors.html"><strong aria-hidden="true">15.14.</strong> Virtual Destructors</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/exceptions.html"><strong aria-hidden="true">15.15.</strong> Exception Handling / Safety</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/templates.html"><strong aria-hidden="true">15.16.</strong> Templates vs Generics</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/multiple_inheritance.html"><strong aria-hidden="true">15.17.</strong> Multiple Inheritance</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/linker.html"><strong aria-hidden="true">15.18.</strong> Linker Errors</a></li></ol></li><li class="chapter-item expanded "><a href="../11_debugging_rust/index.html"><strong aria-hidden="true">16.</strong> Debugging Rust</a></li><li class="chapter-item expanded "><a href="../12_memory_management/index.html"><strong aria-hidden="true">17.</strong> Memory Management</a></li><li class="chapter-item expanded "><a href="../13_std_library/index.html"><strong aria-hidden="true">18.</strong> Rust's std:: library</a></li><li class="chapter-item expanded "><a href="../14_rust_cookbook/index.html"><strong aria-hidden="true">19.</strong> Rust Cookbook</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">A Guide to Porting C/C++ to Rust</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="types"><a class="header" href="#types">Types</a></h1>
+<h2 id="data-model"><a class="header" href="#data-model">Data model</a></h2>
+<p>C/C++ compilers implement a <em>data model</em> that affects what the width of standard types are. The general rule is that:</p>
+<p><code>1 == sizeof(char) &lt;= sizeof(short) &lt;= sizeof(int) &lt;= sizeof(long) &lt;= sizeof(long long)</code></p>
+<p>So basically you <em>cannot</em> tell how big any type is other than a <code>short</code> is at least as big as a <code>char</code> and so on. </p>
+<p>Compilers tend implement a data model which determines the size of types. The four common data models in C++ are:</p>
+<ul>
+<li>LP32 - <code>int</code> is 16-bit, <code>long</code> and pointers are 32-bit. This is an uncommon model (mostly gone since the days of DOS / Windows 3.1) but it is still used on some Arduino targets.</li>
+<li>ILP32 - <code>int</code>, <code>long</code> and pointers are 32-bit. Used by Win32, Linux, OS X</li>
+<li>LLP64 - <code>int</code> and <code>long</code> are 32-bit, <code>long long</code> and pointers are 64-bit. Used by Win64</li>
+<li>LP64 - <code>int</code> is 32-bit, <code>long</code> / <code>long long</code> and pointers are 64-bit. Used by Linux, OS X</li>
+</ul>
+<p>As you can see, potentially everything all the way to <code>long long</code> could be a single byte, or there could be some other crazy definition. In practice software expects one of the models above.</p>
+<h3 id="stdinth--cstdint"><a class="header" href="#stdinth--cstdint">stdint.h / cstdint</a></h3>
+<p>C provides a <code>&lt;stdint.h&gt;</code> header that provides unambigious typedefs with length and signedess, e.g. <code>uint32_t</code>. The equivalent in C++ is <code>&lt;cstdint&gt;</code>.</p>
+<p>If you use the types defined in this header file the types become directly analogous and unambiguous between C/C++ and Rust.</p>
+<div class="table-wrapper"><table><thead><tr><th>C/C++</th><th>Rust</th></tr></thead><tbody>
+<tr><td><code>int8_t</code></td><td><code>i8</code></td></tr>
+<tr><td><code>uint8_t</code></td><td><code>u8</code></td></tr>
+<tr><td><code>int16_t</code></td><td><code>i16</code></td></tr>
+<tr><td><code>uint16_t</code></td><td><code>u16</code></td></tr>
+<tr><td><code>uint32_t</code></td><td><code>u32</code></td></tr>
+<tr><td><code>int32_t</code></td><td><code>i32</code></td></tr>
+<tr><td><code>int64_t</code></td><td><code>i64</code></td></tr>
+<tr><td><code>uint64_t</code></td><td><code>u64</code></td></tr>
+</tbody></table>
+</div>
+<h2 id="comparing-cc-types-to-rust"><a class="header" href="#comparing-cc-types-to-rust">Comparing C/C++ types to Rust</a></h2>
+<p>If code isn't using unambiguous types then these are the <em>most likely</em> analogous types between Rust and C/C++.</p>
+<div class="table-wrapper"><table><thead><tr><th>C/C++</th><th>Rust</th><th>Notes</th></tr></thead><tbody>
+<tr><td><code>char</code></td><td><code>i8</code> (or <code>u8</code>)</td><td>The signedness of a C++ char can be signed or unsigned - the assumption here is signed but it varies by target system.<br>A Rust <code>char</code> is not the same as a C/C++ <code>char</code> since it can hold any Unicode character. <sup class="footnote-reference"><a href="#1">1</a></sup></td></tr>
+<tr><td><code>unsigned char</code></td><td><code>u8</code></td><td></td></tr>
+<tr><td><code>signed char</code></td><td><code>i8</code></td><td></td></tr>
+<tr><td><code>short int</code></td><td><code>i16</code></td><td></td></tr>
+<tr><td><code>unsigned short int</code></td><td><code>u16</code></td><td></td></tr>
+<tr><td><code>(signed) int</code></td><td><code>i32</code> or <code>i16</code></td><td>In C/C++ this is data model dependent <sup class="footnote-reference"><a href="#2">2</a></sup></td></tr>
+<tr><td><code>unsigned int</code></td><td><code>u32</code> or <code>u16</code></td><td>In C/C++ this is data model dependent <sup class="footnote-reference"><a href="#2">2</a></sup></td></tr>
+<tr><td><code>(signed) long int</code></td><td><code>i32</code> or <code>i64</code></td><td>In C/C++ this is data model dependent <sup class="footnote-reference"><a href="#2">2</a></sup></td></tr>
+<tr><td><code>unsigned long int</code></td><td><code>u32</code> or <code>u64</code></td><td>In C/C++ this is data model dependent <sup class="footnote-reference"><a href="#2">2</a></sup></td></tr>
+<tr><td><code>(signed) long long int</code></td><td><code>i64</code></td><td></td></tr>
+<tr><td><code>unsigned long long int</code></td><td><code>u64</code></td><td></td></tr>
+<tr><td><code>size_t</code></td><td><code>usize</code></td><td>usize holds numbers as large as the address space <sup class="footnote-reference"><a href="#3">3</a></sup></td></tr>
+<tr><td><code>float</code></td><td><code>f32</code></td><td></td></tr>
+<tr><td><code>double</code></td><td><code>f64</code></td><td></td></tr>
+<tr><td><code>long double</code></td><td><s>f128</s></td><td>f128 support was present in Rust but removed due to issues for some platforms in implementing it.</td></tr>
+<tr><td><code>bool</code></td><td><code>bool</code></td><td></td></tr>
+<tr><td><code>void</code></td><td><code>()</code></td><td>The unit type (see below)</td></tr>
+</tbody></table>
+</div>
+<p><sup class="footnote-reference"><a href="#1">1</a></sup> Rust's <code>char</code> type, is 4 bytes wide, enough to hold any Unicode character. This is equivalent to the belated <code>char32_t</code> that appears in C++11 to rectify the abused C++98 <code>wchar_t</code> type which on operating systems such as Windows is only 2 bytes wide. When you iterate strings in Rust you may do so either by character or <code>u8</code>, i.e. a byte.</p>
+<p><sup class="footnote-reference"><a href="#2">2</a></sup> See the next section to for a discussion on data models.</p>
+<p><sup class="footnote-reference"><a href="#3">3</a></sup> Rust has a specific numeric type for indexing on arrays and collections called <code>usize</code>. A <code>usize</code> is designed to be able to reference as many elements in an array as there is addressable memory. i.e. if memory is 64-bit addressable then usize is 64-bits in length. There is also a signed <code>isize</code> which is less used but also available.</p>
+<h3 id="machine-types-under-the-covers"><a class="header" href="#machine-types-under-the-covers">Machine types under the covers</a></h3>
+<p>C/C++ and Rust will share the same machine types for each corresponding language type and the same compiler / backend technology, i.e.:</p>
+<ol>
+<li>Signed types are two's complement</li>
+<li>IEE 754-2008 binary32 and binary64 floating points for float and double precision types.</li>
+</ol>
+<h2 id="integer-types"><a class="header" href="#integer-types">Integer types</a></h2>
+<h3 id="c"><a class="header" href="#c">C++</a></h3>
+<p>C/C++ has primitive types for numeric values, floating point values and booleans. Strings will be dealt in a separate section.</p>
+<p>Integer types (<code>char</code>, <code>short</code>, <code>int</code>, <code>long</code>) come in <code>signed</code> and <code>unsigned</code> versions.</p>
+<p>A <code>char</code> is always 8-bits, but for historical reasons, the standards only guarantee the other types are &quot;at least&quot; a certain number of bits. So an <code>int</code> is ordinarily 32-bits but the standard only say it should be at <em>least as large</em> as a <code>short</code>, so potentially it could be 16-bits!</p>
+<p>More recent versions of C and C++ provide a <a href="http://www.cplusplus.com/reference/cstdint/"><code>&lt;cstdint&gt;</code></a> (or <code>&lt;stdint.h&gt;</code> for C) with typedefs that are unambiguous about their precision.</p>
+<p>Even though <code>&lt;stdint.h&gt;</code> can clear up the ambiguities, code frequently sacrifices correctness for terseness. It is not unusual to see an <code>int</code> used as a temporary incremental value in a loop:</p>
+<pre><code class="language-c++">string s = read_file();
+for (int i = 0; i &lt; s.size(); ++i) {
+  //...
+}
+</code></pre>
+<p>While <code>int</code> is unlikely to fail for most loops in a modern compiler supporting ILP32 or greater, it is still technically wrong. In a LP32 data model incrementing 32767 by one would become -32768 so this loop would never terminate if <code>s.size()</code> was a value greater than that.</p>
+<p>But look again at this snippet. What if the file read by <code>read_file()</code> is outside of our control. What if someone deliberately or accidentally feeds us a file so large that our loop will fail trying to iterate over it? In doing so our code is hopelessly broken.</p>
+<p>This loop should be using the same type returned from <code>string::size()</code> which is an opaque unsigned integer type called <code>size_type</code>. This is usually a typedef for <code>std::size_t</code> but not necessarily. Thus we have a type mismatch. A <code>string</code> has an iterator which could be used instead but perhaps you need the index for some reason, but it can messy:</p>
+<pre><code class="language-c++">string s = read_file();
+for (string::iterator i = s.begin(); i != s.end(); ++i) {
+  string::difference_type idx = std::distance(s.begin(), i);
+  //...
+}
+</code></pre>
+<p>Now we've swapped from one opaque type <code>size_type</code> to another called <code>difference_type</code>. Ugh.</p>
+<p>C/C++ types can also be needlessly wordy such as <code>unsigned long long int</code>. Again, this sort of puffery encourages code to make bad assumptions, use a less wordy type, or bloat the code with typedefs.</p>
+<h2 id="rust"><a class="header" href="#rust">Rust</a></h2>
+<p>Rust benefits from integer types that unambiguously denote their signedness and width in their name - <code>i16</code>, <code>u8</code> etc.</p>
+<p>They are also extremely terse making it easy to declare and use them. For example a <code>u32</code> is an unsigned 32-bit integer. An <code>i64</code> is a signed 64-bit integer.</p>
+<p>Types may be inferred or explicitly prefixed to the value:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v1 = 1000;
+let v2 : u32 = 25;
+let v3 = 126i8;
+<span class="boring">}
+</span></code></pre></pre>
+<p>Rust also has two types called <code>usize</code> and <code>isize</code> respectively. These are equivalent to <code>size_t</code> in that they are as large enough to hold as many elements as there is addressable memory. So in a 32-bit operating system they will be 32-bits in size, in a 64-bit operating system they will be 64-bits in size.</p>
+<p>Rust will not implicitly coerce an integer from one size to another without explicit use of the <code>as</code> keyword.</p>
+<pre><code>let v1 = 1000u32;
+let v2: u16 = v1 as u16;
+</code></pre>
+<h2 id="real-types"><a class="header" href="#real-types">Real types</a></h2>
+<h3 id="c-1"><a class="header" href="#c-1">C++</a></h3>
+<p>C/C++ has float, double and long double precision floating point types and they suffer the same vagueness as integer types.</p>
+<ul>
+<li><code>float</code></li>
+<li><code>double</code> - &quot;at least as much precision as a <code>float</code>&quot;</li>
+<li><code>long double</code> - &quot;at least as much precision as a <code>double</code>&quot;</li>
+</ul>
+<p>In most compilers and architectures however a float is a 32-bit single precision value, and a double is an 64-bit double precision value. The most common machine representation is the <a href="https://en.wikipedia.org/wiki/IEEE_floating_point">IEEE 754-2008 format</a>.</p>
+<h4 id="long-double"><a class="header" href="#long-double">Long double</a></h4>
+<p>The <a href="https://en.wikipedia.org/wiki/Long_double"><code>long double</code></a> has proven quite problematic for compilers. Despite the expectation that it is a quadruple precision value it usually isn't. Some compilers such as gcc may offer 80-bit extended precision on x86 processors with a floating point unit but it is implementation defined behaviour.</p>
+<p>The Microsoft Visual C++ compiler treats it with the same precision as a <code>double</code>. Other architectures may treat it as quadruple precision. The fundamental problem with <code>long double</code> is that most desktop processors do not have the ability in hardware to perform 128-bit floating point operations so a compiler must either implement it in software or not bother.</p>
+<h4 id="math-functions"><a class="header" href="#math-functions">Math functions</a></h4>
+<p>The <code>&lt;math.h&gt;</code> / <code>&lt;cmath&gt;</code> C header provides math functions for working with different precision types.</p>
+<pre><code class="language-c++">#include &lt;math.h&gt;
+
+const double PI = 3.1415927;
+double result = cos(45.0 * PI / 180.0);
+//..
+double result2 = abs(-124.77);
+//..
+float result3 = sqrtf(9.0f);
+//
+long double result4 = powl(9,10);
+</code></pre>
+<p>Note how different calls are required according to the precision, e.g. <code>sinf</code>, <code>sin</code> or <code>sinl</code>. C99 supplies a &quot;type-generic&quot; set of macros in <code>&lt;tgmath.h&gt;</code> which allows <code>sin()</code> to be used regardless of type.</p>
+<p>C++11 provides a <code>&lt;cmath&gt;</code> that uses specialised inline functions for the same purpose:</p>
+<pre><code class="language-c++">#include &lt;cmath&gt;
+float result = std::sqrt(9.0f);
+</code></pre>
+<h3 id="rust-1"><a class="header" href="#rust-1">Rust</a></h3>
+<p>Rust implements two floating point types - <code>f32</code> and <code>f64</code>. These would be analogous to a 32-bit <code>float</code> and 64-bit <code>double</code> in C/C++.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v1 = 10.0;
+let v2 = 99.99f32;
+let v3 = -10e4f64;
+<span class="boring">}
+</span></code></pre></pre>
+<p>Unlike in C/C++, the math functions are directly bound to the type itself providing you properly qualify the type.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let result = 10.0f32.sqrt();
+//
+let angle = 45.0f64;
+let result2 = angle.to_radians().cos();
+<span class="boring">}
+</span></code></pre></pre>
+<p>Rust does not have a 128-bit double. A <code>f128</code> did exist for a period of time but was removed to portability, complexity and maintenance issues. Note how <code>long double</code> is treated (or not) according to the compiler and target platform. </p>
+<p>At some point Rust might get a f128 or f80 but at this time does not have such a type.</p>
+<h2 id="booleans"><a class="header" href="#booleans">Booleans</a></h2>
+<p>A <code>bool</code> (boolean) type in C/C++ can have the value <code>true</code> or <code>false</code>, however it can be promoted to an integer type (0 == <code>false</code>, 1 == <code>true</code>) and a bool even has a ++ operator for turning false to true although it has no -- operator!?</p>
+<p>But inverting true with a ! becomes false and vice versa.</p>
+<pre><code class="language-c++">!false == true
+!true == false
+</code></pre>
+<p>Rust also has a <code>bool</code> type that can have the value <code>true</code> or <code>false</code>. Unlike C/C++ it is a true type with no promotion to integer type</p>
+<h2 id="void--unit-type"><a class="header" href="#void--unit-type">void / Unit type</a></h2>
+<p>C/C++ uses <code>void</code> to specify a type of nothing or an indeterminate pointer to something.</p>
+<pre><code class="language-c++">// A function that doesn't return anything
+void delete_directory(const std::string &amp;path);
+
+// Indeterminate pointer use
+struct file_stat {
+  uint32_t creation_date;
+  uint32_t last_modified;
+  char file_name[MAX_PATH + 1];
+};
+
+// malloc returns a void * which must be cast to the type need
+file_stat *s = (file_stat *) malloc(sizeof(file_stat));
+// But casting is not required when going back to void *
+free(s);
+</code></pre>
+<p>The nearest thing to <code>void</code> in Rust is the Unit type. It's called a Unit type because it's type is <code>()</code> and it has one value of <code>()</code>.</p>
+<p>Technically <code>void</code> is absolutely nothing and <code>()</code> is a single value of type <code>()</code> so they're not analogous but they serve a similar purpose.</p>
+<p>When a block evaluates to nothing it returns <code>()</code>. We can also use it in places where we don't care about one parameter. e.g. say we have a function <code>do_action()</code> that succeeds or fails for various reasons. We don't need any payload with the Ok response so specify <code>()</code> as the payload of success:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn do_action() -&gt; Result&lt;(), String&gt; {
+ //...
+ Result::Ok(())
+}
+
+let result = do_action();
+if result.is_ok() {
+ println!(&quot;Success!&quot;);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="empty-enums"><a class="header" href="#empty-enums">Empty enums</a></h3>
+<p>Rust <em>does</em> have something closer (but not the same as) <code>void</code> - empty enumerations.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Void {}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Essentially this enum has no values at all so anything that assigns or matches this nothing-ness is unreachable and the compiler can issue warnings or errors. If the code had used <code>()</code> the compiler might not be able to determine this.</p>
+<h2 id="tuples"><a class="header" href="#tuples">Tuples</a></h2>
+<p>A tuple is a collection of values of the same or different type passed to a function or returned by one as if it were a single value.</p>
+<p>C/C++ has no concept of a tuple primitive type, however C++11 can construct a tuple using a template:</p>
+<pre><code class="language-c++">std::tuple&lt;std::string, int&gt; v1 = std::make_tuple(&quot;Sally&quot;, 25);
+//
+std::cout &lt;&lt; &quot;Name = &quot; &lt;&lt; std::get&lt;0&gt;(v1)
+          &lt;&lt; &quot;, age = &quot; &lt;&lt; std::get&lt;1&gt;(v1) &lt;&lt; std::endl;
+</code></pre>
+<p>Rust supports tuples as part of its language:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v1 = (&quot;Sally&quot;, 25);
+println!(&quot;Name = {}, age = {}&quot;, v1.0, v1.1);
+<span class="boring">}
+</span></code></pre></pre>
+<p>As you can see this is more terse and more useful. Note that the way a tuple is indexed is different from an array though, values are indexed via .0, .1 etc.</p>
+<p>Tuples can also be returned by functions and assignment operators can ignore tuple members we're not interested in.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let (x, y, _) = calculate_coords();
+println!(&quot;x = {}, y = {}&quot;, x, y);
+//...
+pub fn calculate_coords() -&gt; (i16, i16, i16) {
+  (11, 200, -33)
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>In this example, the calculate_coords() function returns a tuple containing three <code>i16</code> values. We assign the first two values to <code>x</code> and <code>y</code> respectively and ignore the third by passing an underscore. The underscore tells the compiler we're aware of the 3rd value but we just don't care about it.</p>
+<p>Tuples can be particularly useful with code blocks. For example, let's say we want to get some values from a piece of code that uses a guard lock on a reference counted service. We can lock the service in the block and return all the values as a tuple to the recipients outside of the block:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let protected_service: Arc&lt;Mutex&lt;ProtectedService&gt;&gt; = Arc::new(Mutex::new(ProtectedService::new()));
+//...
+let (host, port, url) = {
+  // Lock and acquire access to ProtectedService
+  let protected_service = protected_service.lock().unwrap();
+  let host = protected_service.host();
+  let port = protected_service.port();
+  let url = protected_service.url();
+  (host, port, url)
+}
+
+<span class="boring">}
+</span></code></pre></pre>
+<p>This code is really neat - the lock allows us to obtain the values, the lock goes out of scope and the values are returned in one go.</p>
+<h2 id="arrays"><a class="header" href="#arrays">Arrays</a></h2>
+<p>An array is a fixed size list of elements in a contiguous memory location that can be referenced by an index. Arrays can be allocated either on the stack or the heap.</p>
+<p>E.g to create a 100 element array of <code>double</code> values in C++ / C using the language features:</p>
+<pre><code class="language-c++">// Stack (uninitialized)
+double values[100]; // ?,?,?,?,?,...
+// Stack with assignment
+double values[100] = [1, 2, 3]; // 1,2,3,?,?,?,?,...
+// Heap
+double *values = new double[100]; // ?,?,?,?,?,...
+delete []values;
+// C99 initialized arrays
+double values[100] = { }; // 0,0,0,0,0,...
+double values[100] = {1, 2, 3}; // 1,2,3,0,0,0,0...
+// C99 initialized arrays with designators
+double values[100] = {1, 2, 3, [99] = 99}; // 1,2,3,0,0,0,...,0,99
+// C++ doesn't need the assignment
+double values[100] {1, 2, 3}; // 1,2,3,0,0,0,0...
+</code></pre>
+<p>As can be seen, arrays have evolved a lot to resolve issues using uninitialized data but it is also leads to a lot of variation in how they are defined. Designators can be be incredibly powerful.</p>
+<p>The language also doesn't help you know what the size of an array is, so you will often see code like this:</p>
+<pre><code class="language-c++">// Number of elements is the size of the entire array divided by the size of one element
+int len = sizeof(values) / sizeof(values[0]);
+</code></pre>
+<p>But this isn't the end of it because C++ also defines <code>std::array</code> which is slightly more convenient for having <code>size()</code>, <code>empty()</code>, <code>begin()</code>, <code>end()</code> etc. making it similar to other kinds of collection:</p>
+<pre><code class="language-c++">#include &lt;array&gt;
+//...
+std::array values {1, 2, 3};
+for (int i = 0; i &lt; values.size(); i++) {
+  //...
+}
+</code></pre>
+<p>Rust has a less powerful syntax than is possible with initialized arrays in C++ but it is also less ambiguous:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Stack
+let values = [0f64; 100]; // 100 elements initialised to 0
+let values = [1f64, 2f64, 3f64]; // 3 elements 1,2,3
+// Heap
+let values = Box::new([0f64; 100]);
+<span class="boring">}
+</span></code></pre></pre>
+<p>Note how Rust provides a shorthand to initialise the array with the same value or assigns the array with every value. Initialisation in C and C++ is optional but it is more expressive in that portions of the array can be set or not set using enclosed list syntax.</p>
+<p>But Rust <em>forces</em> you to initialise an array to something, ensuring the content of the array is predictable. Attempting to declare an array without assigning it a value is a compiler error.</p>
+<p>In addition, a Rust array coerces to be a slice <code>&amp;[T]</code>, so methods like <code>len()</code>, <code>is_empty()</code>, <code>get()</code>, <code>swap()</code>, <code>reverse()</code> are all instantly available:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Reverse the order of values in this array in-place
+let mut values = [1, 2, 3, 4];
+values.reverse();
+println!(&quot;Values = {:?}&quot;, values);
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="multi-dimensional-arrays"><a class="header" href="#multi-dimensional-arrays">Multi-dimensional arrays</a></h3>
+<h2 id="slices"><a class="header" href="#slices">Slices</a></h2>
+<p>A slice is a runtime view of a part of an array or string. A slice is not a copy of the array / string rather that it is a reference to a portion of it. The reference holds a pointer to the starting element and the number of elements in the slice. </p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let array = [&quot;Mary&quot;, &quot;Sue&quot;, &quot;Bob&quot;, &quot;Michael&quot;];
+println!(&quot;{:?}&quot;, array);
+let slice = &amp;array[2..];
+println!(&quot;{:?}&quot;, slice);
+<span class="boring">}
+</span></code></pre></pre>
+<p>This slice represents the portion of array starting from index 2.</p>
+<pre><code>[&quot;Mary&quot;, &quot;Sue&quot;, &quot;Bob&quot;, &quot;Michael&quot;]
+[&quot;Bob&quot;, &quot;Michael&quot;]
+</code></pre>
+<h3 id="size-of-the-array"><a class="header" href="#size-of-the-array">Size of the array</a></h3>
+<p>C gives no easy way to know the length of the array unless happen to remember it from the code that declares it.
+C++ allows to encapsulate the array with a <code>std::array</code> or request the size with the generic function <code>std::size</code>.</p>
+<pre><code class="language-c++">// C++11
+std::array&lt;Element, 100&gt; elements;
+std::cout &lt;&lt; &quot;Size of std::array = &quot; &lt;&lt; elements.size() &lt;&lt; std::endl;
+
+// C++17
+Element elements[100];
+std::cout &lt;&lt; &quot;Size of C array = &quot; &lt;&lt; std::size(elements) &lt;&lt; std::endl;
+</code></pre>
+<p>They require making functions templates instead of simple functions if one wants to pass array of unknown size: </p>
+<pre><code class="language-c++">template&lt;std::size_t N&gt;
+void fill_buffer(std::array&lt;Element, N&gt;&amp; arr) { ... }
+
+template&lt;std::size_t N&gt;
+void fill_buffer(Element (&amp;arr)[N]) { ... }
+</code></pre>
+<p>Or more recently using <code>std::span</code> if knowing the size at run-time instead of compile-time is sufficient:</p>
+<pre><code class="language-c++">// C++20
+void fill_buffer(std::span&lt;Element&gt; arr) { ... }
+
+std::array&lt;Element, 100&gt; elements_std;
+Element elements_c[100];
+
+fill_buffer(elements_std);
+fill_buffer(elements_c);
+</code></pre>
+<p>Alternatively you might see code like this:</p>
+<pre><code class="language-c++">const size_t num_elements = 1024;
+char buffer[num_elements];
+//...
+// fill_buffer needs to be told how many elements there are
+fill_buffer(buffer, num_elements);
+</code></pre>
+<p>Or like this</p>
+<pre><code class="language-c++">Element elements[100];
+//...
+int num_elements = sizeof(elements) / sizeof(Element);
+</code></pre>
+<p>In Rust, the array has a function bound to it called <code>len()</code>. This always provides the length of the array. In addition if we take a slice of the array, that also has a <code>len()</code>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let buffer: [u8; 1024]
+println!(&quot;Buffer length = {}&quot;, buffer.len());
+
+fill_buffer(&amp;buffer[0..10]);
+//...
+fn fill_buffer(elements: &amp;[Element]) {
+  println!(&quot;Number of elements = {}&quot;, elements.len());
+}
+<span class="boring">}
+</span></code></pre></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../09_features_compared/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../09_features_compared/strings.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../09_features_compared/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../09_features_compared/strings.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

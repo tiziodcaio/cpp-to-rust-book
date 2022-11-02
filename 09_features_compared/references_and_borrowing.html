@@ -1,0 +1,305 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Lifetimes, References and Borrowing - A Guide to Porting C/C++ to Rust</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="A book that explains how to port code from C++ to Rust.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../licence.html"><strong aria-hidden="true">2.</strong> Licence</a></li><li class="chapter-item expanded "><a href="../foreword.html"><strong aria-hidden="true">3.</strong> Foreword</a></li><li class="chapter-item expanded "><a href="../credits.html"><strong aria-hidden="true">4.</strong> Credits</a></li><li class="chapter-item expanded "><a href="../notation.html"><strong aria-hidden="true">5.</strong> Notation used through this book</a></li><li class="chapter-item expanded "><a href="../01_setting_up_rust/index.html"><strong aria-hidden="true">6.</strong> Setting Up Rust</a></li><li class="chapter-item expanded "><a href="../02_c_and_cpp_background/index.html"><strong aria-hidden="true">7.</strong> C and C++ Background</a></li><li class="chapter-item expanded "><a href="../03_rust_background/index.html"><strong aria-hidden="true">8.</strong> Rust Background</a></li><li class="chapter-item expanded "><a href="../04_start_simple/index.html"><strong aria-hidden="true">9.</strong> Let's Start Simple</a></li><li class="chapter-item expanded "><a href="../05_compiling_and_linking/index.html"><strong aria-hidden="true">10.</strong> Compiling and Linking in More Detail</a></li><li class="chapter-item expanded "><a href="../06_source_layout/index.html"><strong aria-hidden="true">11.</strong> Source Layout and Other General Points</a></li><li class="chapter-item expanded "><a href="../07_namespacing_with_modules/index.html"><strong aria-hidden="true">12.</strong> Namespacing With Modules</a></li><li class="chapter-item expanded "><a href="../08_porting_code/index.html"><strong aria-hidden="true">13.</strong> Porting Code</a></li><li class="chapter-item expanded "><a href="../09_features_compared/index.html"><strong aria-hidden="true">14.</strong> Features of Rust compared with C++</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../09_features_compared/types.html"><strong aria-hidden="true">14.1.</strong> Types</a></li><li class="chapter-item expanded "><a href="../09_features_compared/strings.html"><strong aria-hidden="true">14.2.</strong> Strings</a></li><li class="chapter-item expanded "><a href="../09_features_compared/variables.html"><strong aria-hidden="true">14.3.</strong> Variables</a></li><li class="chapter-item expanded "><a href="../09_features_compared/literals.html"><strong aria-hidden="true">14.4.</strong> Literals</a></li><li class="chapter-item expanded "><a href="../09_features_compared/collections.html"><strong aria-hidden="true">14.5.</strong> Collections</a></li><li class="chapter-item expanded "><a href="../09_features_compared/structs.html"><strong aria-hidden="true">14.6.</strong> Structs</a></li><li class="chapter-item expanded "><a href="../09_features_compared/comments.html"><strong aria-hidden="true">14.7.</strong> Comments</a></li><li class="chapter-item expanded "><a href="../09_features_compared/references_and_borrowing.html" class="active"><strong aria-hidden="true">14.8.</strong> Lifetimes, References and Borrowing</a></li><li class="chapter-item expanded "><a href="../09_features_compared/expressions.html"><strong aria-hidden="true">14.9.</strong> Expressions</a></li><li class="chapter-item expanded "><a href="../09_features_compared/conditions.html"><strong aria-hidden="true">14.10.</strong> Conditions</a></li><li class="chapter-item expanded "><a href="../09_features_compared/match.html"><strong aria-hidden="true">14.11.</strong> Switch / Match</a></li><li class="chapter-item expanded "><a href="../09_features_compared/casting.html"><strong aria-hidden="true">14.12.</strong> Casting</a></li><li class="chapter-item expanded "><a href="../09_features_compared/enums.html"><strong aria-hidden="true">14.13.</strong> Enumerations</a></li><li class="chapter-item expanded "><a href="../09_features_compared/loops.html"><strong aria-hidden="true">14.14.</strong> Loops</a></li><li class="chapter-item expanded "><a href="../09_features_compared/functions.html"><strong aria-hidden="true">14.15.</strong> Functions</a></li><li class="chapter-item expanded "><a href="../09_features_compared/polymorphism.html"><strong aria-hidden="true">14.16.</strong> Polymorphism</a></li><li class="chapter-item expanded "><a href="../09_features_compared/error_handling.html"><strong aria-hidden="true">14.17.</strong> Error Handling</a></li><li class="chapter-item expanded "><a href="../09_features_compared/closures.html"><strong aria-hidden="true">14.18.</strong> Lambda Expressions / Closures</a></li><li class="chapter-item expanded "><a href="../09_features_compared/generics.html"><strong aria-hidden="true">14.19.</strong> Templates / Generics</a></li><li class="chapter-item expanded "><a href="../09_features_compared/attributes.html"><strong aria-hidden="true">14.20.</strong> Attributes</a></li><li class="chapter-item expanded "><a href="../09_features_compared/multthreading.html"><strong aria-hidden="true">14.21.</strong> Multi-threading</a></li><li class="chapter-item expanded "><a href="../09_features_compared/lint.html"><strong aria-hidden="true">14.22.</strong> Lint</a></li><li class="chapter-item expanded "><a href="../09_features_compared/macros.html"><strong aria-hidden="true">14.23.</strong> Macros</a></li><li class="chapter-item expanded "><a href="../09_features_compared/memory_allocation.html"><strong aria-hidden="true">14.24.</strong> Memory Allocation</a></li><li class="chapter-item expanded "><a href="../09_features_compared/ffi.html"><strong aria-hidden="true">14.25.</strong> Foreign Function Interface</a></li></ol></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/index.html"><strong aria-hidden="true">15.</strong> Porting from C/C++ to Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../10_porting_from_cpp/copy_constructors.html"><strong aria-hidden="true">15.1.</strong> Copy Constructor / Assignment Operators</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/missing_braces.html"><strong aria-hidden="true">15.2.</strong> Missing Braces in Conditionals</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/assignments_in_conditionals.html"><strong aria-hidden="true">15.3.</strong> Assignment in Conditionals</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/class_member_initialisation.html"><strong aria-hidden="true">15.4.</strong> Class Member Initialisation</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/splitting_code_between_headers_and_sources.html"><strong aria-hidden="true">15.5.</strong> Headers and Sources</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/forward_declarations.html"><strong aria-hidden="true">15.6.</strong> Forward Declarations</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/namespace_collisions.html"><strong aria-hidden="true">15.7.</strong> Namespace Collisions</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/macros.html"><strong aria-hidden="true">15.8.</strong> Macros</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/type_mismatching.html"><strong aria-hidden="true">15.9.</strong> Type Mismatching</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/class_constructors.html"><strong aria-hidden="true">15.10.</strong> Explicit / Implicit Class Constructors</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/poor_lifetime_enforcement.html"><strong aria-hidden="true">15.11.</strong> Poor Lifetime Enforcement</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/memory_allocation.html"><strong aria-hidden="true">15.12.</strong> Memory Allocation</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/null_pointers.html"><strong aria-hidden="true">15.13.</strong> Null Pointers</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/virtual_destructors.html"><strong aria-hidden="true">15.14.</strong> Virtual Destructors</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/exceptions.html"><strong aria-hidden="true">15.15.</strong> Exception Handling / Safety</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/templates.html"><strong aria-hidden="true">15.16.</strong> Templates vs Generics</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/multiple_inheritance.html"><strong aria-hidden="true">15.17.</strong> Multiple Inheritance</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/linker.html"><strong aria-hidden="true">15.18.</strong> Linker Errors</a></li></ol></li><li class="chapter-item expanded "><a href="../11_debugging_rust/index.html"><strong aria-hidden="true">16.</strong> Debugging Rust</a></li><li class="chapter-item expanded "><a href="../12_memory_management/index.html"><strong aria-hidden="true">17.</strong> Memory Management</a></li><li class="chapter-item expanded "><a href="../13_std_library/index.html"><strong aria-hidden="true">18.</strong> Rust's std:: library</a></li><li class="chapter-item expanded "><a href="../14_rust_cookbook/index.html"><strong aria-hidden="true">19.</strong> Rust Cookbook</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">A Guide to Porting C/C++ to Rust</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="lifetimes-references-and-borrowing"><a class="header" href="#lifetimes-references-and-borrowing">Lifetimes, References and Borrowing</a></h1>
+<p>C/C++ have very little enforcement of object lifetimes aside from checking to see if a variable exists in scope or not, as well as the initialisation of reference variables. This can easily lead to situations where the reference / pointer to some object is left &quot;dangling&quot;, i.e. the object has been destroyed but it is possible to call to where it used to be causing runtime errors.</p>
+<p>Rust takes a far stricter view of lifetimes and ownership.</p>
+<ol>
+<li>Data moves on assignment</li>
+<li>Data must implement a <code>Copy</code> trait if it wants to implicitly copy on assignment and there are strict rules on this - basically every member of the struct must be a primitive.</li>
+<li>Data must implement a <code>Clone</code> trait if it wants to implicity create a clone of itself.</li>
+<li>Data can be &quot;borrowed&quot; (with similar notation and meaning as a reference in C++) but the compiler tracks lifetimes and it is an error for a borrow to exceed the lifetime of the object it references.</li>
+<li>Data can only be mutably borrowed by a single reference. It is a compile error for there to be any other references in existence at the same time. This is to prevent one place from modifying data that other places may be reading.</li>
+</ol>
+<h2 id="binding"><a class="header" href="#binding">Binding</a></h2>
+<p>When you assign an object to a variable in Rust, you are said to be binding it. i.e your variable &quot;owns&quot; the object for as long as it is in scope and when it goes out of scope it is destroyed.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>{
+  let v1 = vec![1, 2, 3, 4]; // v1 is bound to the Vec
+  ...
+  // v1 goes out of scope, Vec is dropped
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="moving-on-assignment"><a class="header" href="#moving-on-assignment">Moving on assignment</a></h2>
+<p>In C++ when I copy a value from <code>v1</code> to <code>v2</code>, I have two copies of the same data, independent of each other. This can cause some problems:</p>
+<pre><code class="language-c++">class Data {
+  Data() : data_(new char[100]) {}
+  ~Data() {
+    delete []data_;
+  }
+private:
+  char *data_;
+}
+//...
+Data v1;
+Data v2 = v1;
+// What happens when these go out of scope?
+</code></pre>
+<p>The problem here is that by assigning <code>v1</code> to <code>v2</code> we now have two classes who share the same private pointer <code>data_</code> and the last to go out of scope and delete the pointer will crash. We could mitigate the problem assuming we noticed it in a couple of ways:</p>
+<ol>
+<li>Implement a copy constructor and assignment operator to go with the destructor. This is a pattern called the <em>rule of three</em> and while it solves the issue, it complicates our simple class and brings its own issues (e.g. handling <code>v1 = v1</code> properly). </li>
+<li>Inherit from a base class with a private copy constructor. This causes the compiler to generate an error on assignment. This is how the <code>boost::noncopyable</code> works</li>
+<li>Implement move on assignment. A move means that the assignment passes ownership of the data from <code>v1</code> to <code>v2</code> and the value in <code>v1</code> is invalid and will not be unwound or destroyed. This is even more complex than 1) and usually leads to the <em>rule of five</em> which is even more complex.</li>
+</ol>
+<p>Rust simplifies this by treating everything as move on assignment.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Data {
+  data: Box&lt;[u8; 100]&gt;
+}
+// ...
+let v1 = Data { data: Box::new([0u8; 100])};
+let v2 = v1;
+// ...
+<span class="boring">}
+</span></code></pre></pre>
+<p>The assignment moves the data from <code>v1</code> to <code>v2</code> and marks <code>v1</code> as invalid. If you attempt to reference <code>v1</code> any more in your code, it will generate a compile error. If there was a panic and the stack unwound, the data in <code>v2</code> would be unwound and the data in <code>v1</code> would be ignored.</p>
+<p>Likewise, if we pass by value to a function then that also moves ownership:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>{
+  let v1 = Data { data: Box::new([0u8; 100])};
+  we_own_it(v1);
+  println!(&quot;v = {:?}&quot;, v1);
+}
+
+fn we_own_it(v: Data) {
+  // ...
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>When we called <code>we_own_it(v1)</code> we moved ownership of the data from <code>v1</code> to the function parameter and it never came back.</p>
+<p>If we absolutely wanted the data to come back we could do it in this somewhat clumsy inefficient way:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>v1 = we_own_and_return_it(v1)
+...
+fn we_own_and_return_it(v: Data) -&gt; Data {
+  // ...
+  v1
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>So we:</p>
+<ol>
+<li>Assign the data to <code>v1</code></li>
+<li>Move the data to <code>v</code> when we call <code>we_own_and_return_it</code></li>
+<li>Return <code>v</code> as the result of the function</li>
+<li>Move the data back to <code>v1</code>.</li>
+</ol>
+<p>That's a lot of moving and a further section will explain borrowing.</p>
+<h3 id="variables-must-be-bound-to-something"><a class="header" href="#variables-must-be-bound-to-something">Variables must be bound to something</a></h3>
+<p>Just one more point. Variables must be bound to something. You cannot use a variable if it hasn't been initialized with a value of some kind:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let x: i32;
+println!(&quot;The value of x is {}&quot;, x);
+<span class="boring">}
+</span></code></pre></pre>
+<p>It is quite valid in C++ to declare variable and do nothing with it. Or conditionally do something to the variable which confuses the compiler so it only generates a warning.</p>
+<pre><code class="language-c++">int result;
+{
+   // The scope is to control the lifetime of a lock
+   lock_guard&lt;mutex&gt; guard(data_mutex);
+   result = do_something();
+}
+if (result == 0) {
+  debug(&quot;result succeeded&quot;);
+}
+</code></pre>
+<p>The Rust compiler will throw an error, not a warning, if variables are uninitialised. It will also warn you if you declare a variable and end up not using it.</p>
+<h2 id="references-and-borrowing"><a class="header" href="#references-and-borrowing">References and Borrowing</a></h2>
+<p>We've seen that ownership of an object is tracked by the compiler. If you assign one variable to another, ownership is bound to the assignee. The original variable is invalid and the compiler will generate errors if it is used.</p>
+<p>Sometimes we only want to <em>borrow</em> data, use it temporarily without moving it around or the added noise in the code of reassignment.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>{
+  let mut v = Vec::new(); // empty vector
+  fill_vector(&amp;mut v);
+  // ...
+  println!(&quot;Vector contains {:?}&quot;, v);
+}
+//...
+fn fill_vector(v: &amp;mut Vec&lt;i32&gt;) {
+  v.push(1);
+  v.push(2);
+  v.push(3);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Here we create an empty vector and pass a mutable reference to it to a function called fill_vector(). The compiler knows that the function is borrowing v and then ownership is returned to v after the function returns.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../09_features_compared/comments.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../09_features_compared/expressions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../09_features_compared/comments.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../09_features_compared/expressions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

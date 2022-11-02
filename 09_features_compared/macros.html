@@ -1,0 +1,377 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Macros - A Guide to Porting C/C++ to Rust</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="A book that explains how to port code from C++ to Rust.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../licence.html"><strong aria-hidden="true">2.</strong> Licence</a></li><li class="chapter-item expanded "><a href="../foreword.html"><strong aria-hidden="true">3.</strong> Foreword</a></li><li class="chapter-item expanded "><a href="../credits.html"><strong aria-hidden="true">4.</strong> Credits</a></li><li class="chapter-item expanded "><a href="../notation.html"><strong aria-hidden="true">5.</strong> Notation used through this book</a></li><li class="chapter-item expanded "><a href="../01_setting_up_rust/index.html"><strong aria-hidden="true">6.</strong> Setting Up Rust</a></li><li class="chapter-item expanded "><a href="../02_c_and_cpp_background/index.html"><strong aria-hidden="true">7.</strong> C and C++ Background</a></li><li class="chapter-item expanded "><a href="../03_rust_background/index.html"><strong aria-hidden="true">8.</strong> Rust Background</a></li><li class="chapter-item expanded "><a href="../04_start_simple/index.html"><strong aria-hidden="true">9.</strong> Let's Start Simple</a></li><li class="chapter-item expanded "><a href="../05_compiling_and_linking/index.html"><strong aria-hidden="true">10.</strong> Compiling and Linking in More Detail</a></li><li class="chapter-item expanded "><a href="../06_source_layout/index.html"><strong aria-hidden="true">11.</strong> Source Layout and Other General Points</a></li><li class="chapter-item expanded "><a href="../07_namespacing_with_modules/index.html"><strong aria-hidden="true">12.</strong> Namespacing With Modules</a></li><li class="chapter-item expanded "><a href="../08_porting_code/index.html"><strong aria-hidden="true">13.</strong> Porting Code</a></li><li class="chapter-item expanded "><a href="../09_features_compared/index.html"><strong aria-hidden="true">14.</strong> Features of Rust compared with C++</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../09_features_compared/types.html"><strong aria-hidden="true">14.1.</strong> Types</a></li><li class="chapter-item expanded "><a href="../09_features_compared/strings.html"><strong aria-hidden="true">14.2.</strong> Strings</a></li><li class="chapter-item expanded "><a href="../09_features_compared/variables.html"><strong aria-hidden="true">14.3.</strong> Variables</a></li><li class="chapter-item expanded "><a href="../09_features_compared/literals.html"><strong aria-hidden="true">14.4.</strong> Literals</a></li><li class="chapter-item expanded "><a href="../09_features_compared/collections.html"><strong aria-hidden="true">14.5.</strong> Collections</a></li><li class="chapter-item expanded "><a href="../09_features_compared/structs.html"><strong aria-hidden="true">14.6.</strong> Structs</a></li><li class="chapter-item expanded "><a href="../09_features_compared/comments.html"><strong aria-hidden="true">14.7.</strong> Comments</a></li><li class="chapter-item expanded "><a href="../09_features_compared/references_and_borrowing.html"><strong aria-hidden="true">14.8.</strong> Lifetimes, References and Borrowing</a></li><li class="chapter-item expanded "><a href="../09_features_compared/expressions.html"><strong aria-hidden="true">14.9.</strong> Expressions</a></li><li class="chapter-item expanded "><a href="../09_features_compared/conditions.html"><strong aria-hidden="true">14.10.</strong> Conditions</a></li><li class="chapter-item expanded "><a href="../09_features_compared/match.html"><strong aria-hidden="true">14.11.</strong> Switch / Match</a></li><li class="chapter-item expanded "><a href="../09_features_compared/casting.html"><strong aria-hidden="true">14.12.</strong> Casting</a></li><li class="chapter-item expanded "><a href="../09_features_compared/enums.html"><strong aria-hidden="true">14.13.</strong> Enumerations</a></li><li class="chapter-item expanded "><a href="../09_features_compared/loops.html"><strong aria-hidden="true">14.14.</strong> Loops</a></li><li class="chapter-item expanded "><a href="../09_features_compared/functions.html"><strong aria-hidden="true">14.15.</strong> Functions</a></li><li class="chapter-item expanded "><a href="../09_features_compared/polymorphism.html"><strong aria-hidden="true">14.16.</strong> Polymorphism</a></li><li class="chapter-item expanded "><a href="../09_features_compared/error_handling.html"><strong aria-hidden="true">14.17.</strong> Error Handling</a></li><li class="chapter-item expanded "><a href="../09_features_compared/closures.html"><strong aria-hidden="true">14.18.</strong> Lambda Expressions / Closures</a></li><li class="chapter-item expanded "><a href="../09_features_compared/generics.html"><strong aria-hidden="true">14.19.</strong> Templates / Generics</a></li><li class="chapter-item expanded "><a href="../09_features_compared/attributes.html"><strong aria-hidden="true">14.20.</strong> Attributes</a></li><li class="chapter-item expanded "><a href="../09_features_compared/multthreading.html"><strong aria-hidden="true">14.21.</strong> Multi-threading</a></li><li class="chapter-item expanded "><a href="../09_features_compared/lint.html"><strong aria-hidden="true">14.22.</strong> Lint</a></li><li class="chapter-item expanded "><a href="../09_features_compared/macros.html" class="active"><strong aria-hidden="true">14.23.</strong> Macros</a></li><li class="chapter-item expanded "><a href="../09_features_compared/memory_allocation.html"><strong aria-hidden="true">14.24.</strong> Memory Allocation</a></li><li class="chapter-item expanded "><a href="../09_features_compared/ffi.html"><strong aria-hidden="true">14.25.</strong> Foreign Function Interface</a></li></ol></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/index.html"><strong aria-hidden="true">15.</strong> Porting from C/C++ to Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../10_porting_from_cpp/copy_constructors.html"><strong aria-hidden="true">15.1.</strong> Copy Constructor / Assignment Operators</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/missing_braces.html"><strong aria-hidden="true">15.2.</strong> Missing Braces in Conditionals</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/assignments_in_conditionals.html"><strong aria-hidden="true">15.3.</strong> Assignment in Conditionals</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/class_member_initialisation.html"><strong aria-hidden="true">15.4.</strong> Class Member Initialisation</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/splitting_code_between_headers_and_sources.html"><strong aria-hidden="true">15.5.</strong> Headers and Sources</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/forward_declarations.html"><strong aria-hidden="true">15.6.</strong> Forward Declarations</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/namespace_collisions.html"><strong aria-hidden="true">15.7.</strong> Namespace Collisions</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/macros.html"><strong aria-hidden="true">15.8.</strong> Macros</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/type_mismatching.html"><strong aria-hidden="true">15.9.</strong> Type Mismatching</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/class_constructors.html"><strong aria-hidden="true">15.10.</strong> Explicit / Implicit Class Constructors</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/poor_lifetime_enforcement.html"><strong aria-hidden="true">15.11.</strong> Poor Lifetime Enforcement</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/memory_allocation.html"><strong aria-hidden="true">15.12.</strong> Memory Allocation</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/null_pointers.html"><strong aria-hidden="true">15.13.</strong> Null Pointers</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/virtual_destructors.html"><strong aria-hidden="true">15.14.</strong> Virtual Destructors</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/exceptions.html"><strong aria-hidden="true">15.15.</strong> Exception Handling / Safety</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/templates.html"><strong aria-hidden="true">15.16.</strong> Templates vs Generics</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/multiple_inheritance.html"><strong aria-hidden="true">15.17.</strong> Multiple Inheritance</a></li><li class="chapter-item expanded "><a href="../10_porting_from_cpp/linker.html"><strong aria-hidden="true">15.18.</strong> Linker Errors</a></li></ol></li><li class="chapter-item expanded "><a href="../11_debugging_rust/index.html"><strong aria-hidden="true">16.</strong> Debugging Rust</a></li><li class="chapter-item expanded "><a href="../12_memory_management/index.html"><strong aria-hidden="true">17.</strong> Memory Management</a></li><li class="chapter-item expanded "><a href="../13_std_library/index.html"><strong aria-hidden="true">18.</strong> Rust's std:: library</a></li><li class="chapter-item expanded "><a href="../14_rust_cookbook/index.html"><strong aria-hidden="true">19.</strong> Rust Cookbook</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">A Guide to Porting C/C++ to Rust</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="macros"><a class="header" href="#macros">Macros</a></h1>
+<h2 id="c--c-preprocessor"><a class="header" href="#c--c-preprocessor">C / C++ Preprocessor</a></h2>
+<p>C languages are little unusual in that they are compiled in two phases. The first phase is called the preprocess. In this phase, the preprocessor looks for directives starting with a # symbol and runs string substitution and conditional inclusion / exclusion based on those directives. Only after the file has been preprocessed does the compiler attempt to compile it.</p>
+<p>Preprocessor directives start with a <code>#</code> symbol. For example the <code>#define</code> directive creates a macro with an optional value:</p>
+<pre><code class="language-c++">#define IS_WINDOWS
+#define SHAREWARE_VERSION 1
+</code></pre>
+<p>We'll explore macros more in a moment. Another directive is the <code>#if\#else\#endif</code> or <code>#ifdef\#else\#endif</code> which can be used to include code from one branch or the other of a test according to what matches.</p>
+<pre><code class="language-c++">#if SHAREWARE_VERSION == 1
+showNagwarePopup();
+#endif
+//...
+#ifdef IS_WINDOWS
+writePrefsToRegistry();
+#else
+writePrefsToCfg();
+#endif
+</code></pre>
+<p>Another directive is <code>#include</code>. In C and C++, public functions and structures are typically defined and implemented in separate files. The <code>#include</code> directive allows a header to be pulled in to the front of any file that makes use of those definitions.</p>
+<pre><code class="language-c++">// System / external headers tend to use angle style
+#include &lt;string&gt;
+#include &lt;stdio.h&gt;
+
+// Local headers tend to use double quotes
+#include &quot;MyClass.h&quot;
+</code></pre>
+<p>The important thing to remember in all of this is ALL of these things happen before the compiler even starts! Your <code>main.c</code> might only be 10 lines of code but if you <code>#include</code> some headers the preprocessor may be feeding many thousands of lines of types, functions into the compiler, all of which are evaluated before they get to your code.</p>
+<h2 id="c--c-macros"><a class="header" href="#c--c-macros">C / C++ Macros</a></h2>
+<p>Macros are string substitution patterns performed by the preprocessor before the source is compiled. As such they can be very prone to error and so have been deprecated in favour of constants and inline functions.</p>
+<p>Here is a simple macro that would behave in an unexpected manner:</p>
+<pre><code class="language-c++">#define MULTIPLY(x, y) x * y
+//
+int x = 10, y = 20;
+int result = MULTIPLY(x + 1, x + y);
+// Value is NOT 330 (11 * 30), it's 41 because macro becomes x + 1 * x + y
+</code></pre>
+<p>The macro is very simple - multiply x by y. But it fails if either argument is an expression. Judicious use of parentheses might avoid the error in this case, but we could break it again using some pre or post increments.</p>
+<p>Macros in C++ are also unhygenic, i.e. the macro can inadvertently conflict with or capture values from outside of itself causing errors in the code.</p>
+<pre><code class="language-c++">#define SWAP(x, y) int tmp = y; y = x; x = y;
+//
+int tmp = 10;
+int a = 20, b = 30;
+SWAP(a, b); // ERROR
+</code></pre>
+<p>Here our SWAP macro uses a temporary value called <code>tmp</code> that already existed in the scope and so the compiler complains. A macro might avoid this by using shadow variables enclosed
+within a <code>do / while(0)</code> block to avoid conflicts but it is less than ideal.</p>
+<pre><code class="language-c++">#define SWAP(x, y) do { int tmp = y; y = x; x = y } while(0);
+</code></pre>
+<p>Consequently inline functions are used wherever possible. Even so macros are still frequently used in these roles:</p>
+<ul>
+<li>To conditionally include for a command-line flag or directive, e.g. the compiler might <code>#define WIN32</code> so code can conditionally compile one way or another according to its presence.</li>
+<li>For adding guard blocks around headers to prevent them being #include'd more than once. Most compilers implement a &quot;#pragma once directive&quot; which is an increasingly common alternative</li>
+<li>For generating snippets of boiler plate code (e.g. namespace wrappers), or things that might be compiled away depending on #defines like DEBUG being set or not.</li>
+<li>For making strings of values and other esoteric edge cases</li>
+</ul>
+<p>Writing a macro is easy, perhaps too easy:</p>
+<pre><code class="language-c++">#define PRINT(x) \
+  printf(&quot;You printed %d&quot;, x);
+</code></pre>
+<p>This macro would expand to printf before compilation but it would fail to compile or print the wrong thing if x were not an integer.</p>
+<h2 id="rust-macros"><a class="header" href="#rust-macros">Rust macros</a></h2>
+<p>Macros in Rust are quite a complex topic but they are more powerful and safer than the ones in C++.</p>
+<ul>
+<li>Rust macros are hygenic. That is to say if a macro contains variables, their names do not conflict with, hide, or otherwise interfere with named variables from the scope they're used from.</li>
+<li>The pattern supplied in between the brackets of the macro are tokenized and designated as parts of the Rust language. identifiers, expressions etc. In C / C++ you can #define a macro to be anything you like whether it is garbage or syntactically correct. Furthermore you can call it from anywhere you like because it is preprocessed even before the compiler sees the code.</li>
+<li>Rust macros are either declarative and rule based with each rule having a left hand side pattern &quot;matcher&quot; and a right hand side &quot;substitution&quot;. Or they're procedural and actualy rust code turns an input into an output (see section below).</li>
+<li>Macros must produce syntactically correct code.</li>
+<li>Declarative macros can be exported by crates and used in other code providing the other code elects to enable macro support from the crate. This is a little messy since it must be signalled with a #[macro_export] directive.</li>
+</ul>
+<p>With all that said, macros in Rust <em>are</em> complex - perhaps too complex - and generally speaking should be used as sparingly as possible.</p>
+<p>Here is a simple declarative macro demonstrating repetition called hello_x!(). It will take a comma separated list of expressions and say hello to each one of them.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>macro_rules! hello_x {
+  ($($name:expr),*) =&gt; (
+    $(println!(&quot;Hello {}&quot;, $name);)*
+  )
+}
+// The code can supply as many arguments it likes to this macro
+hello_x!(&quot;Bob&quot;, &quot;Sue&quot;, &quot;John&quot;, &quot;Ellen&quot;);
+<span class="boring">}
+</span></code></pre></pre>
+<p>Essentially the matcher matches against our comma separate list and the substitution generates one println!() with the message for each expression.</p>
+<pre><code>Hello Bob
+Hello Sue
+Hello John
+Hello Ellen
+</code></pre>
+<p>What if we threw some other expressions into that array?</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>hello_x!(&quot;Bob&quot;, true, 1234.333, -1);
+<span class="boring">}
+</span></code></pre></pre>
+<p>Well that works too:</p>
+<pre><code>Hello Bob
+Hello true
+Hello 1234.333
+Hello -1
+</code></pre>
+<p>What about some illegal code:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>hello_x!(Aardvark {});
+<span class="boring">}
+</span></code></pre></pre>
+<p>We get a meaningful error originating from the macro.</p>
+<pre><code>error[E0422]: `Aardvark` does not name a structure
+  |
+8 | hello_x!(Aardvark {});
+  |          ^^^^^^^^
+&lt;std macros&gt;:2:27: 2:58 note: in this expansion of format_args!
+&lt;std macros&gt;:3:1: 3:54 note: in this expansion of print! (defined in &lt;std macros&gt;)
+&lt;anon&gt;:5:7: 5:35 note: in this expansion of println! (defined in &lt;std macros&gt;)
+&lt;anon&gt;:8:1: 8:23 note: in this expansion of hello_x! (defined in &lt;anon&gt;)
+</code></pre>
+<h2 id="real-world-example---vec"><a class="header" href="#real-world-example---vec">Real world example - vec!()</a></h2>
+<p>Rust comes with a lot of macros for reducing some of the leg work of tedious boiler plate. For example the vec!() macro is a way to declare a std::Vec and prepopulate it with some values.</p>
+<p>Here is the actual vec! macro source code taken from the Rust source:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>macro_rules! vec {
+    ($elem:expr; $n:expr) =&gt; (
+        $crate::vec::from_elem($elem, $n)
+    );
+    ($($x:expr),*) =&gt; (
+        &lt;[_]&gt;::into_vec(box [$($x),*])
+    );
+    ($($x:expr,)*) =&gt; (vec![$($x),*])
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>It looks complex but we will break it down to see what it does. Firstly it has a match-like syntax with three branches that expand to anything that matches the left hand side:</p>
+<h3 id="first-branch"><a class="header" href="#first-branch">First branch</a></h3>
+<p>The first matcher matches a pattern such as <code>1; 100</code>. The value <code>1</code> goes into <code>$elem</code>, the value <code>100</code> goes into <code>$n</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>($elem:expr; $n:expr) =&gt;  (
+        $crate::vec::from_elem($elem, $n)
+    );
+<span class="boring">}
+</span></code></pre></pre>
+<p>The <code>$crate</code> is a special value that resolves to the module crate which happens to be std.</p>
+<p>So this expands to this:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v = vec!(1; 100);
+// 1st branch matches and it becomes this
+let v = std::vec::from_elem(1, 100);
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="second-branch"><a class="header" href="#second-branch">Second branch</a></h3>
+<p>The second matcher contains a glob expression - zero or more expressions separated by comma (the last comma is optional). Each matching expression ends up in <code>$x</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>($($x:expr),*) =&gt; (
+        &lt;[_]&gt;::into_vec(box [$($x),*])
+    );
+<span class="boring">}
+</span></code></pre></pre>
+<p>So we can write:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v = vec!(1, 2, 3, 4, 5);
+// 3nd branch matches and it becomes this
+let v = &lt;[_]&gt;::into_vec(box [1, 2, 3, 4, 5]);
+<span class="boring">}
+</span></code></pre></pre>
+<p>The box keyword tells Rust to allocate the supplied array on the heap and moves the ownership by calling a helper function called into_vec() that wraps the memory array with a Vec instance. The &lt;[_]&gt;:: at the front is a turbo-fish notation to make the into_vec() generic function happy.</p>
+<h3 id="third-branch"><a class="header" href="#third-branch">Third branch</a></h3>
+<p>The third branch is a little odd and almost looks the same as the second branch. But take at look the comma. In the last branch it was next to the asterisk, this time it is inside the inner $().</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>($($x:expr,)*) =&gt; (vec![$($x),*])
+<span class="boring">}
+</span></code></pre></pre>
+<p>The matcher matches when the the comma is there and if so recursively calls vec!() again to resolve to the second branch matcher:</p>
+<p>Basically it is there so that there can be a trailing comma in our declaration and it will still generate the same code.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 3rd branch matches this
+let v = vec!(1, 2, 3, 4, 5,);
+// and it becomes this
+let v = vec!(1, 2, 3, 4, 5);
+// which matches 2nd branch to become
+let v = &lt;[_]&gt;::into_vec(box [1, 2, 3, 4, 5]);
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="procedural-macros"><a class="header" href="#procedural-macros">Procedural Macros</a></h2>
+<p>So far we've talked about declarative macros that expand out to be Rust code based upon how they pattern match the rules defined by the macro.</p>
+<p>A second kind of macro is the <em>procedural macro</em>. A procedural macro is a plugin written in Rust that is compiled and loaded by the compiler to produce arbitrary Rust code as its output.</p>
+<p>A procedural macro can therefore be thought of as a code generator but one that forms part of the actual compiler. Procedural macros can be particularly useful for:</p>
+<ul>
+<li>Serialization / deserialization (e.g. the <a href="https://github.com/serde-rs/serde">serde</a> module generates code for reading and writing structs to a variety of formats - JSON, YAML, TOML, XML etc.)</li>
+<li>Domain Specific Languages (e.g. embedded SQL, regular expressions etc).</li>
+<li>Aspect oriented programming (e.g. extra debugging, performance metrics etc)</li>
+<li>New lint and derive rules</li>
+</ul>
+<p>For more information look at this section on <a href="https://doc.rust-lang.org/book/compiler-plugins.html">compiler plugins</a> in the Rust book.</p>
+<h2 id="other-forms-of-conditional-compilation"><a class="header" href="#other-forms-of-conditional-compilation">Other forms of conditional compilation</a></h2>
+<p>We saw that the C / C++ preprocessor can be used for conditional compilation. The equivalent in Rust is attributes. See the attributes section to see how they may be used.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../09_features_compared/lint.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../09_features_compared/memory_allocation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../09_features_compared/lint.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../09_features_compared/memory_allocation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
